@@ -1,0 +1,24 @@
+{
+  "Entities": [
+    {
+      "Fields": [
+        {
+          "DisplayName": "Service Bus Export Queueu Url",
+          "LogicalName": "an_servicebusexportqueueuurl",
+          "EntityLogicalName": "sb_customsettings"
+        },
+        {
+          "DisplayName": "Service Bus Export Queueu SasKey",
+          "LogicalName": "an_servicebusexportqueueusaskey",
+          "EntityLogicalName": "sb_customsettings"
+        }
+      ],
+      "LogicalName": "sb_customsettings",
+      "DisplayName": "SB Custom Settings",
+      "ModelFileName": null,
+      "PrimaryIdAttribute": "sb_customsettingsid",
+      "PrimaryNameAttribute": "sb_name"
+    }
+  ],
+  "DefaultNamespace": "AN.Integration.Dynamics.Models"
+}
