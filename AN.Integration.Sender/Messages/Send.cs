@@ -3,7 +3,6 @@ using AN.Integration.Dynamics.Extensions;
 using AN.Integration.Dynamics.Models;
 using AN.Integration.Models.Dynamics;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -66,7 +65,7 @@ namespace AN.Integration.Sender.Messages
                     KnownTypes = knownTypes
                 };
 
-                using (MemoryStream ms = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
                     var serializer = new DataContractJsonSerializer(typeof(DynamicsContext), serializerSettings);
                     serializer.WriteObject(ms, dynamicsContext);

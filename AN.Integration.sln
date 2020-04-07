@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AN.Integration.API", "AN.Integration.API\AN.Integration.API.csproj", "{45FBDF09-205E-422C-9B61-47C29526016C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AN.Integration.Models", "AN.Integration.Models\AN.Integration.Models.shproj", "{FF62A744-C67A-46C9-90E2-82C0BE565FDE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dynamics", "Dynamics", "{EB7AF439-E0D8-4AC1-A7FB-C3C2642C3AC9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{21AEA20C-28B5-46A8-8D9D-AC3FDC1F14E0}"
@@ -25,14 +23,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AN.Integration.Database", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AN.Integration.SyncToDatabase.Job", "Web\Jobs\AN.Integration.SyncToDatabase.Job\AN.Integration.SyncToDatabase.Job.csproj", "{E5F50DE1-2EC4-4D06-86A5-A7150D24A615}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AN.Integration.Mapper", "Web\Shared\AN.Integration.Mapper\AN.Integration.Mapper.csproj", "{ADB2577F-FFB5-4CAB-A319-AE4D89B8728E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AN.Integration.Mapper", "Web\Shared\AN.Integration.Mapper\AN.Integration.Mapper.csproj", "{ADB2577F-FFB5-4CAB-A319-AE4D89B8728E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AN.Integration.Database.Models", "Web\Shared\AN.Integration.Database.Models\AN.Integration.Database.Models.csproj", "{65D6A8F8-FC99-402A-9888-005CE1C8AE84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AN.Integration.Database.Models", "Web\Shared\AN.Integration.Database.Models\AN.Integration.Database.Models.csproj", "{65D6A8F8-FC99-402A-9888-005CE1C8AE84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AN.Integration.Infrastructure", "Web\Shared\AN.Integration.Infrastructure\AN.Integration.Infrastructure.csproj", "{40CB5942-AE1C-42AE-B224-8A015C9CC285}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AN.Integration._1C", "AN.Integration._1C\AN.Integration._1C.shproj", "{724BC3E2-1EA8-46AE-ADB6-A1FE3E7FFE67}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{EC5C01DC-E125-440A-B936-F691E0B5EB88}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		AN.Integration._1C\AN.Integration._1C.projitems*{724bc3e2-1ea8-46ae-adb6-a1fe3e7ffe67}*SharedItemsImports = 13
 		AN.Integration.Dynamics\AN.Integration.Dynamics.projitems*{c1c03128-a15d-46d8-9bf0-a51f0d4af994}*SharedItemsImports = 13
-		AN.Integration.Models\AN.Integration.Models.projitems*{ff62a744-c67a-46c9-90e2-82c0be565fde}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,11 +67,16 @@ Global
 		{65D6A8F8-FC99-402A-9888-005CE1C8AE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65D6A8F8-FC99-402A-9888-005CE1C8AE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65D6A8F8-FC99-402A-9888-005CE1C8AE84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40CB5942-AE1C-42AE-B224-8A015C9CC285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40CB5942-AE1C-42AE-B224-8A015C9CC285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40CB5942-AE1C-42AE-B224-8A015C9CC285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40CB5942-AE1C-42AE-B224-8A015C9CC285}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{45FBDF09-205E-422C-9B61-47C29526016C} = {EC5C01DC-E125-440A-B936-F691E0B5EB88}
 		{21AEA20C-28B5-46A8-8D9D-AC3FDC1F14E0} = {EB7AF439-E0D8-4AC1-A7FB-C3C2642C3AC9}
 		{10A788C1-F5B7-4E61-81F0-2BE8920120DC} = {21AEA20C-28B5-46A8-8D9D-AC3FDC1F14E0}
 		{752F371F-1B59-4914-BD0C-A80A99904053} = {31E3D244-7D24-48C5-B976-5F84B056B8E9}
@@ -76,6 +85,8 @@ Global
 		{E5F50DE1-2EC4-4D06-86A5-A7150D24A615} = {752F371F-1B59-4914-BD0C-A80A99904053}
 		{ADB2577F-FFB5-4CAB-A319-AE4D89B8728E} = {2D198D28-CD52-4111-A84E-2E5636A966AC}
 		{65D6A8F8-FC99-402A-9888-005CE1C8AE84} = {2D198D28-CD52-4111-A84E-2E5636A966AC}
+		{40CB5942-AE1C-42AE-B224-8A015C9CC285} = {2D198D28-CD52-4111-A84E-2E5636A966AC}
+		{EC5C01DC-E125-440A-B936-F691E0B5EB88} = {31E3D244-7D24-48C5-B976-5F84B056B8E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AEFD533-5871-455D-877C-3BFB3B59F973}

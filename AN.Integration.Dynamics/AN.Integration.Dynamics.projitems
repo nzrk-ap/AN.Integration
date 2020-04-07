@@ -10,10 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)EntityProviders\Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsContextExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EntityExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SettingsExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EntityBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SBCustomSettingsModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Serializer.cs" />
   </ItemGroup>
 </Project>

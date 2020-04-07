@@ -10,11 +10,16 @@ namespace AN.Integration.Database
     public class DatabaseClient
     {
         private readonly QueryBuilder _queryBuilder = new QueryBuilder();
-        private SqlConnection _sqlConnection;
+        private readonly SqlConnection _sqlConnection;
 
         public DatabaseClient(string sqlConnectionString)
         {
             _sqlConnection = new SqlConnection(sqlConnectionString);
+        }
+
+        public async Task<IEnumerable<T>> SelectAsync<T>(string query) where T : IDatabaseTable
+        {
+            return await _sqlConnection.QueryAsync<T>(query);
         }
 
         public async Task<IEnumerable<T>> SelectAsync<T>(QueryFilter filter) where T : IDatabaseTable
@@ -23,18 +28,12 @@ namespace AN.Integration.Database
             return await _sqlConnection.QueryAsync<T>(query);
         }
 
-        public async Task InsertAsync<T>(T singleItem) where T : class, IDatabaseTable
+        public async Task UpsertAsync<T>(T singleItem) where T : class, IDatabaseTable
         {
             if (!await _sqlConnection.UpdateAsync(singleItem))
             {
                 _sqlConnection.Insert(singleItem);
-            };
-        }
-
-        private async Task InitializeTables()
-        {
-
-            await _sqlConnection.OpenAsync();
+            }
         }
     }
 }
