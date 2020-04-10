@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using static AN.Integration.Database.QueryFilterElement;
+using static AN.Integration.Database.Query.QueryFilterElement;
 
-namespace AN.Integration.Database
+namespace AN.Integration.Database.Query
 {
     public class ConditionValueBuilder
     {
@@ -23,7 +23,7 @@ namespace AN.Integration.Database
 
         private static string GetValueByOperator<T>(IEnumerable<T> values, OperatorType operatorType) =>
             (operatorType == OperatorType.In) ? $"({string.Join(",", values)})" :
-            throw new ArgumentException($"Opeartor {operatorType} is not allowed for multiple values");
+            throw new ArgumentException($"Operator {operatorType} is not allowed for multiple values");
 
         private static string GetValueByOperator(string value, OperatorType operatorType) =>
             operatorType == OperatorType.Like ? $"'%{value}%'" : value;

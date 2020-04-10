@@ -5,6 +5,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>DynamicsKey.snk</AssemblyOriginatorKeyFile>
     <RootNamespace>AN.Integration.Sender</RootNamespace>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +16,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
+
+  <Import Project="..\AN.Integration.Dynamics.Core\AN.Integration.Dynamics.Core.projitems" Label="Shared" />
 
   <Import Project="..\AN.Integration.Dynamics\AN.Integration.Dynamics.projitems" Label="Shared" />
 

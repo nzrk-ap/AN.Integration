@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>3d474130-8002-47ee-9309-49cdf351f017</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>AN.Integration.Dynamics.Core</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\AttributeCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\DynamicsContextCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\DataCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ImageCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ParameterCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ReferenceCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\EntityCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EntityExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EntityImagesCollectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ParameterCollectionExtensions.cs" />
+  </ItemGroup>
+</Project>

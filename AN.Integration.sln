@@ -27,14 +27,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AN.Integration.Mapper", "We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AN.Integration.Database.Models", "Web\Shared\AN.Integration.Database.Models\AN.Integration.Database.Models.csproj", "{65D6A8F8-FC99-402A-9888-005CE1C8AE84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AN.Integration.Infrastructure", "Web\Shared\AN.Integration.Infrastructure\AN.Integration.Infrastructure.csproj", "{40CB5942-AE1C-42AE-B224-8A015C9CC285}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AN.Integration.Infrastructure", "Web\Shared\AN.Integration.Infrastructure\AN.Integration.Infrastructure.csproj", "{40CB5942-AE1C-42AE-B224-8A015C9CC285}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AN.Integration._1C", "AN.Integration._1C\AN.Integration._1C.shproj", "{724BC3E2-1EA8-46AE-ADB6-A1FE3E7FFE67}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{EC5C01DC-E125-440A-B936-F691E0B5EB88}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AN.Integration.Dynamics.Core", "AN.Integration.Dynamics.Core\AN.Integration.Dynamics.Core.shproj", "{3D474130-8002-47EE-9309-49CDF351F017}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		AN.Integration.Dynamics.Core\AN.Integration.Dynamics.Core.projitems*{3d474130-8002-47ee-9309-49cdf351f017}*SharedItemsImports = 13
 		AN.Integration._1C\AN.Integration._1C.projitems*{724bc3e2-1ea8-46ae-adb6-a1fe3e7ffe67}*SharedItemsImports = 13
 		AN.Integration.Dynamics\AN.Integration.Dynamics.projitems*{c1c03128-a15d-46d8-9bf0-a51f0d4af994}*SharedItemsImports = 13
 	EndGlobalSection
