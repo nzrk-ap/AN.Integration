@@ -145,6 +145,8 @@ namespace AN.Integration.Dynamics.Extensions
 
             foreach (var attribute in entity.Attributes)
             {
+                if (attribute.Value is null) continue;
+
                 dynamicsEntity.Attributes.Add(attribute.Key, ConvertAttributeValue(attribute));
             }
 

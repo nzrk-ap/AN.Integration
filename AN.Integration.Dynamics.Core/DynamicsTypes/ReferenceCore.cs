@@ -3,7 +3,8 @@ using System.Runtime.Serialization;
 
 namespace AN.Integration.Dynamics.Core.DynamicsTypes
 {
-   public class ReferenceCore: IExtensibleDataObject
+    [DataContract]
+    public class ReferenceCore : IExtensibleDataObject
     {
         private string _logicalName;
         private string _name;
@@ -20,6 +21,27 @@ namespace AN.Integration.Dynamics.Core.DynamicsTypes
             _logicalName = logicalName;
             _id = id;
             _name = name;
+        }
+
+        [DataMember]
+        public Guid Id
+        {
+            get => _id;
+            set => _id = value;
+        }
+
+        [DataMember]
+        public string LogicalName
+        {
+            get => _logicalName;
+            set => _logicalName = value;
+        }
+
+        [DataMember]
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
         }
 
         public ExtensionDataObject ExtensionData { get; set; }

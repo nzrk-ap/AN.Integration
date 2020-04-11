@@ -88,6 +88,8 @@ namespace AN.Integration.Sender.Messages
             var knownTypes = new List<Type>()
             {
                 typeof(EntityCore),
+                typeof(ReferenceCore),
+                typeof(ConcurrencyBehavior)
             };
 
             var serializerSettings = new DataContractJsonSerializerSettings
@@ -106,20 +108,5 @@ namespace AN.Integration.Sender.Messages
 
             return content;
         }
-
-        //private static DynamicsContextCore GetDynamicsContextCore(IExecutionContext context)
-        //{
-        //    var dynamicsContext = new DynamicsContextCore
-        //    {
-        //        MessageType = (DynamicsContextCore.MessageTypeEnum)
-        //            Enum.Parse(typeof(DynamicsContextCore.MessageTypeEnum), context.MessageName),
-        //        UserId = context.UserId,
-        //        InputParameters = context.InputParameters?.ToCollectionCore(),
-        //        PreEntityImages = context.PreEntityImages?.ToCollectionCore(),
-        //        PostEntityImages = context.PostEntityImages?.ToCollectionCore(),
-        //    };
-
-        //    return dynamicsContext;
-        //}
     }
 }
