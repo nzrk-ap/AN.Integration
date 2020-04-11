@@ -9,7 +9,7 @@ namespace AN.Integration.Dynamics.Extensions
         {
             var prop = settings.GetType().GetProperty(parameterName);
 
-            if (string.IsNullOrEmpty((string)prop.GetValue(settings)))
+            if (prop != null && string.IsNullOrEmpty((string) prop.GetValue(settings)))
             {
                 throw new Exception($"{prop.Name} is not set");
             }

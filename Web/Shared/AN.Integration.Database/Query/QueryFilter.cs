@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AN.Integration.Database
+namespace AN.Integration.Database.Query
 {
     public class QueryFilter
     {

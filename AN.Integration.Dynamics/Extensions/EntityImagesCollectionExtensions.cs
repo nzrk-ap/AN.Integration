@@ -1,7 +1,7 @@
 ﻿using AN.Integration.Dynamics.Core.DynamicsTypes;
 using Microsoft.Xrm.Sdk;
 
-namespace AN.Integration.Dynamics.Core.Extensions
+namespace AN.Integration.Dynamics.Extensions
 {
     public static class EntityImageCollectionExtensions
     {

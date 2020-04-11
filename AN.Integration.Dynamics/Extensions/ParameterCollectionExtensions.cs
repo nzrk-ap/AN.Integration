@@ -1,7 +1,7 @@
 ﻿using AN.Integration.Dynamics.Core.DynamicsTypes;
 using Microsoft.Xrm.Sdk;
 
-namespace AN.Integration.Dynamics.Core.Extensions
+namespace AN.Integration.Dynamics.Extensions
 {
     public static class ParameterCollectionExtensions
     {
@@ -17,7 +17,7 @@ namespace AN.Integration.Dynamics.Core.Extensions
                 }
                 else
                 {
-                    collection.Add(item.Key, item.Value);
+                    collectionCore.Add(item.Key, item.Value);
                 }
             }
 

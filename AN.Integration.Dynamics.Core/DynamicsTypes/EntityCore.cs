@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace AN.Integration.Dynamics.Core.DynamicsTypes
 {
+    [DataContract]
     public class EntityCore : IExtensibleDataObject
     {
         private string _logicalName;
@@ -26,18 +27,21 @@ namespace AN.Integration.Dynamics.Core.DynamicsTypes
             _attributes = attributes;
         }
 
+        [DataMember]
         public string LogicalName
         {
             get => _logicalName;
             set => _logicalName = value;
         }
 
+        [DataMember]
         public virtual Guid Id
         {
             get => _id;
             set => _id = value;
         }
 
+        [DataMember]
         public AttributeCollectionCore Attributes
         {
             get => _attributes ??= new AttributeCollectionCore();

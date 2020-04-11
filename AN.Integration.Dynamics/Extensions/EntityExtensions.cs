@@ -1,6 +1,8 @@
 ﻿using AN.Integration.Dynamics.Models;
 using Microsoft.Xrm.Sdk;
 using System;
+using System.Collections.Generic;
+using AN.Integration.Dynamics.Core.DynamicsTypes;
 
 namespace AN.Integration.Dynamics.Extensions
 {
@@ -131,12 +133,41 @@ namespace AN.Integration.Dynamics.Extensions
         {
             foreach (var attribute in source.Attributes)
             {
-                if (target.Contains(attribute.Key)) continue;
-
                 target[attribute.Key] = source[attribute.Key];
             }
 
             return target;
+        }
+
+        public static EntityCore ToEntityCore(this Entity entity)
+        {
+            var dynamicsEntity = new EntityCore(entity.LogicalName, entity.Id);
+
+            foreach (var attribute in entity.Attributes)
+            {
+                dynamicsEntity.Attributes.Add(attribute.Key, ConvertAttributeValue(attribute));
+            }
+
+            return dynamicsEntity;
+        }
+
+        private static object ConvertAttributeValue(KeyValuePair<string, object> attribute)
+        {
+            object value = attribute.Value switch
+            {
+                string s => s,
+                int i => i,
+                float f => f,
+                decimal d => d,
+                Guid g => g,
+                DateTime dt => dt,
+                Money m => m.Value,
+                OptionSetValue osv => osv.Value,
+                EntityReference er => new ReferenceCore(er.LogicalName, er.Id),
+                _ => throw new ArgumentException($"Type conversion for {attribute.Value.GetType().Name} is not supported")
+            };
+
+            return value;
         }
     }
 }

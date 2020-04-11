@@ -5,11 +5,11 @@ using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using AN.Integration.Dynamics.Core.DynamicsTypes;
-using AN.Integration.Dynamics.Core.Extensions;
 
 namespace AN.Integration.Sender.Messages
 {
@@ -24,6 +24,10 @@ namespace AN.Integration.Sender.Messages
         {
             _secureConfig = secureConfig;
             _unsecureConfig = unsecureConfig;
+        }
+
+        public Send()
+        {
         }
 
         #endregion
@@ -43,31 +47,29 @@ namespace AN.Integration.Sender.Messages
                 settings.EnsureParameterIsSet(nameof(settings.ServiceBusExportQueueuUrl));
                 settings.EnsureParameterIsSet(nameof(settings.ServiceBusExportQueueuSasKey));
 
+                var contextCore = new DynamicsContextCore
+                {
+                    MessageType = (DynamicsContextCore.MessageTypeEnum)
+                        Enum.Parse(typeof(DynamicsContextCore.MessageTypeEnum), context.MessageName),
+                    UserId = context.UserId,
+                    InputParameters = context.InputParameters.ToCollectionCore()
+                };
+
+                if (context.PreEntityImages.Any())
+                {
+                    contextCore.PreEntityImages = context.PreEntityImages.ToCollectionCore();
+                }
+
+                if (context.PostEntityImages.Any())
+                {
+                    contextCore.PostEntityImages = context.PostEntityImages.ToCollectionCore();
+                }
+
                 var httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Add("Authorization", settings.ServiceBusExportQueueuSasKey);
 
-                var knownTypes = new List<Type>()
-                {
-                    typeof(Entity),
-                    typeof(ConcurrencyBehavior)
-                };
-
-                var serializerSettings = new DataContractJsonSerializerSettings
-                {
-                    KnownTypes = knownTypes
-                };
-
-                var serializer = new DataContractJsonSerializer(typeof(DynamicsContextCore), serializerSettings);
-                StringContent content;
-                using (var ms = new MemoryStream())
-                {
-                    serializer.WriteObject(ms, GetDynamicsContextCore(context));
-                    content = new StringContent(Encoding.UTF8.GetString(ms.ToArray()),
-                        Encoding.UTF8, "application/json");
-                }
-
-                var result = httpClient.PostAsync(new Uri(settings.ServiceBusExportQueueuUrl), content)
-                    .GetAwaiter().GetResult();
+                var result = httpClient.PostAsync(new Uri(settings.ServiceBusExportQueueuUrl),
+                        ToStringContent(contextCore)).GetAwaiter().GetResult();
 
                 if (!result.IsSuccessStatusCode)
                 {
@@ -81,19 +83,43 @@ namespace AN.Integration.Sender.Messages
             }
         }
 
-        private static DynamicsContextCore GetDynamicsContextCore(IExecutionContext context)
+        private static StringContent ToStringContent(DynamicsContextCore contextCore)
         {
-            var dynamicsContext = new DynamicsContextCore
+            var knownTypes = new List<Type>()
             {
-                MessageType = (DynamicsContextCore.MessageTypeEnum)
-                    Enum.Parse(typeof(DynamicsContextCore.MessageTypeEnum), context.MessageName),
-                UserId = context.UserId,
-                InputParameters = context.InputParameters.ToCollectionCore(),
-                PreEntityImages = context.PreEntityImages.ToCollectionCore(),
-                PostEntityImages = context.PostEntityImages.ToCollectionCore(),
+                typeof(EntityCore),
             };
 
-            return dynamicsContext;
+            var serializerSettings = new DataContractJsonSerializerSettings
+            {
+                KnownTypes = knownTypes
+            };
+
+            var serializer = new DataContractJsonSerializer(typeof(DynamicsContextCore), serializerSettings);
+            StringContent content;
+            using (var ms = new MemoryStream())
+            {
+                serializer.WriteObject(ms, contextCore);
+                content = new StringContent(Encoding.UTF8.GetString(ms.ToArray()),
+                    Encoding.UTF8, "application/json");
+            }
+
+            return content;
         }
+
+        //private static DynamicsContextCore GetDynamicsContextCore(IExecutionContext context)
+        //{
+        //    var dynamicsContext = new DynamicsContextCore
+        //    {
+        //        MessageType = (DynamicsContextCore.MessageTypeEnum)
+        //            Enum.Parse(typeof(DynamicsContextCore.MessageTypeEnum), context.MessageName),
+        //        UserId = context.UserId,
+        //        InputParameters = context.InputParameters?.ToCollectionCore(),
+        //        PreEntityImages = context.PreEntityImages?.ToCollectionCore(),
+        //        PostEntityImages = context.PostEntityImages?.ToCollectionCore(),
+        //    };
+
+        //    return dynamicsContext;
+        //}
     }
 }

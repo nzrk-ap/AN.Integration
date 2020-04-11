@@ -4,6 +4,7 @@ using Dapper.Contrib.Extensions;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using AN.Integration.Database.Query;
 
 namespace AN.Integration.Database
 {

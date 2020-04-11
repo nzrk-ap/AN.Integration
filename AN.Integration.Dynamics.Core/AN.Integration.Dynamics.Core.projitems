@@ -16,8 +16,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ParameterCollectionCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ReferenceCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\EntityCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EntityExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EntityImagesCollectionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ParameterCollectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsContextCoreExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsCoreExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Serializer.cs" />
   </ItemGroup>
 </Project>

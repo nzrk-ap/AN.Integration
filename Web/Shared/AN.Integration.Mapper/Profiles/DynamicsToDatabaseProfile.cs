@@ -1,7 +1,6 @@
 ﻿using AN.Integration.Database.Models;
-using AN.Integration.Dynamics.Extensions;
+using AN.Integration.Dynamics.Core.DynamicsTypes;
 using AutoMapper;
-using Microsoft.Xrm.Sdk;
 
 namespace AN.Integration.Mapper.Profiles
 {
@@ -9,13 +8,12 @@ namespace AN.Integration.Mapper.Profiles
     {
         public DynamicsToDatabaseProfile()
         {
-
-            CreateMap<Entity, Contact>()
+            CreateMap<EntityCore, Contact>()
                  .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
-                 .ForMember(d => d.FirstName, o => o.MapFrom(s => s.GetText("firstname")))
-                 .ForMember(d => d.LastName, o => o.MapFrom(s => s.GetText("lastname")))
-                 .ForMember(d => d.Email, o => o.MapFrom(s => s.GetText("email")))
-                 .ForMember(d => d.Mobile, o => o.MapFrom(s => s.GetText("mobilephone")));
+                 .ForMember(d => d.FirstName, o => o.MapFrom(s => s.GetAttributeValue<string>("firstname")))
+                 .ForMember(d => d.LastName, o => o.MapFrom(s => s.GetAttributeValue<string>("lastname")))
+                 .ForMember(d => d.Email, o => o.MapFrom(s => s.GetAttributeValue<string>("email")))
+                 .ForMember(d => d.Mobile, o => o.MapFrom(s => s.GetAttributeValue<string>("mobilephone")));
         }
     }
 }
