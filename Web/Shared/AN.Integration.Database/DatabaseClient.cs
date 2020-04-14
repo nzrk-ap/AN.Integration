@@ -33,8 +33,13 @@ namespace AN.Integration.Database
         {
             if (!await _sqlConnection.UpdateAsync(singleItem))
             {
-                _sqlConnection.Insert(singleItem);
+                await _sqlConnection.InsertAsync(singleItem);
             }
+        }
+
+        public async Task DeleteAsync<T>(T singleItem) where T : class, IDatabaseTable
+        {
+            await _sqlConnection.DeleteAsync(singleItem);
         }
     }
 }

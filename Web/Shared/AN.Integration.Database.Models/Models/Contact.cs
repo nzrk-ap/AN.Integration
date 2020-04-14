@@ -1,8 +1,9 @@
 ﻿using System;
 using Dapper.Contrib.Extensions;
 
-namespace AN.Integration.Database.Models
+namespace AN.Integration.Database.Models.Models
 {
+    [Table("Contacts")]
     public class Contact: IDatabaseTable
     {
         [ExplicitKey]

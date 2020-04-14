@@ -1,19 +1,20 @@
 ﻿using AN.Integration.Database;
 using AN.Integration.SyncToDatabase.Job.Handlers;
-using AN.Integration.Mapper.Profiles;
-using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using AN.Integration.Database.Models.Models;
+using AN.Integration.SyncToDatabase.Job.Extensions;
+using AN.Integration.SyncToDatabase.Job.Services;
 
 namespace AN.Integration.SyncToDatabase.Job
 {
-    class Program
+    internal class Program
     {
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
             var hostBuilder = new HostBuilder()
                 .ConfigureAppConfiguration((context, builder) =>
@@ -30,7 +31,8 @@ namespace AN.Integration.SyncToDatabase.Job
                 .ConfigureWebJobs((context, builder) =>
                 {
                     builder.AddAzureStorageCoreServices();
-                    builder.AddServiceBus((ops)=> {
+                    builder.AddServiceBus((ops) =>
+                    {
                         ops.ConnectionString = context.Configuration.GetConnectionString("ServiceBus");
                     });
                 })
@@ -39,20 +41,15 @@ namespace AN.Integration.SyncToDatabase.Job
                     services.AddTransient(provider =>
                     {
                         var sqlConnectionString = context.Configuration
-                        .GetConnectionString("SqlDatabase");
+                            .GetConnectionString("SqlDatabase");
                         return new DatabaseClient(sqlConnectionString);
                     });
                     services.AddTransient<ServiceBusHandler>();
-                    var mappingConfig = new MapperConfiguration(mc =>
-                    {
-                        mc.AddProfile(new DynamicsToDatabaseProfile());
-                    });
-                    services.AddSingleton(mappingConfig.CreateMapper());
+                    services.AddTransient<IEntityHandler<Product>, ProductHandler>();
+                    services.AddTransient<IEntityHandler<Contact>, ContactHandler>();
+                    services.RegisterEntityMappers().RegisterEntityHandler();
                 })
-                .ConfigureLogging((context, builder) =>
-                {
-                    builder.AddConsole();
-                });
+                .ConfigureLogging((context, builder) => { builder.AddConsole(); });
 
             using var host = hostBuilder.Build();
             await host.RunAsync();

@@ -3,13 +3,11 @@ using AN.Integration.Dynamics.Extensions;
 using AN.Integration.Dynamics.Models;
 using Microsoft.Xrm.Sdk;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.Serialization.Json;
 using System.Text;
 using AN.Integration.Dynamics.Core.DynamicsTypes;
+using AN.Integration.Dynamics.Core.Utilities;
 
 namespace AN.Integration.Sender.Messages
 {
@@ -49,8 +47,8 @@ namespace AN.Integration.Sender.Messages
 
                 var contextCore = new DynamicsContextCore
                 {
-                    MessageType = (DynamicsContextCore.MessageTypeEnum)
-                        Enum.Parse(typeof(DynamicsContextCore.MessageTypeEnum), context.MessageName),
+                    MessageType = (ContextMessageType)
+                        Enum.Parse(typeof(ContextMessageType), context.MessageName),
                     UserId = context.UserId,
                     InputParameters = context.InputParameters.ToCollectionCore()
                 };
@@ -69,7 +67,8 @@ namespace AN.Integration.Sender.Messages
                 httpClient.DefaultRequestHeaders.Add("Authorization", settings.ServiceBusExportQueueuSasKey);
 
                 var result = httpClient.PostAsync(new Uri(settings.ServiceBusExportQueueuUrl),
-                        ToStringContent(contextCore)).GetAwaiter().GetResult();
+                    new StringContent(ContextSerializer.ToJson(contextCore),
+                        Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
 
                 if (!result.IsSuccessStatusCode)
                 {
@@ -81,32 +80,6 @@ namespace AN.Integration.Sender.Messages
             {
                 throw new InvalidPluginExecutionException(e.Message);
             }
-        }
-
-        private static StringContent ToStringContent(DynamicsContextCore contextCore)
-        {
-            var knownTypes = new List<Type>()
-            {
-                typeof(EntityCore),
-                typeof(ReferenceCore),
-                typeof(ConcurrencyBehavior)
-            };
-
-            var serializerSettings = new DataContractJsonSerializerSettings
-            {
-                KnownTypes = knownTypes
-            };
-
-            var serializer = new DataContractJsonSerializer(typeof(DynamicsContextCore), serializerSettings);
-            StringContent content;
-            using (var ms = new MemoryStream())
-            {
-                serializer.WriteObject(ms, contextCore);
-                content = new StringContent(Encoding.UTF8.GetString(ms.ToArray()),
-                    Encoding.UTF8, "application/json");
-            }
-
-            return content;
         }
     }
 }

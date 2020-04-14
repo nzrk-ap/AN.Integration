@@ -26,8 +26,4 @@
     <ProjectReference Include="..\..\Shared\AN.Integration.Mapper\AN.Integration.Mapper.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

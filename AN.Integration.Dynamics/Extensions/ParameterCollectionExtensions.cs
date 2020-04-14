@@ -11,13 +11,14 @@ namespace AN.Integration.Dynamics.Extensions
 
             foreach (var item in collection)
             {
-                if (item.Value is Entity entity)
+                switch (item.Value)
                 {
-                    collectionCore.Add(item.Key, entity.ToEntityCore());
-                }
-                else
-                {
-                    collectionCore.Add(item.Key, item.Value);
+                    case Entity entity:
+                        collectionCore.Add(item.Key, entity.ToEntityCore());
+                        break;
+                    case EntityReference reference:
+                        collectionCore.Add(item.Key, new ReferenceCore(reference.LogicalName, reference.Id));
+                        break;
                 }
             }
 

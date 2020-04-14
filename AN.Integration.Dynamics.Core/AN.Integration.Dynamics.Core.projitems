@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\AttributeCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ContextMessageType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\DynamicsContextCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\DataCollectionCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ImageCollectionCore.cs" />
@@ -18,6 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\EntityCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsContextCoreExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsCoreExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Serializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ContextSerializer.cs" />
   </ItemGroup>
 </Project>
