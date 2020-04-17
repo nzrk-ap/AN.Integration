@@ -1,12 +1,11 @@
-﻿using AN.Integration.Database;
-using AN.Integration.SyncToDatabase.Job.Handlers;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using AN.Integration.Database.Models.Models;
+using AN.Integration.Database.Client;
+using AN.Integration.Database.Query;
 using AN.Integration.SyncToDatabase.Job.Extensions;
 using AN.Integration.SyncToDatabase.Job.Services;
 
@@ -33,21 +32,21 @@ namespace AN.Integration.SyncToDatabase.Job
                     builder.AddAzureStorageCoreServices();
                     builder.AddServiceBus((ops) =>
                     {
-                        ops.ConnectionString = context.Configuration.GetConnectionString("ServiceBus");
+                        ops.ConnectionString = context.Configuration
+                            .GetConnectionString("ServiceBus");
                     });
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddTransient(provider =>
+                    services.AddTransient<IDatabaseClient>(provider =>
                     {
                         var sqlConnectionString = context.Configuration
                             .GetConnectionString("SqlDatabase");
-                        return new DatabaseClient(sqlConnectionString);
+                        return new SqlServerClient(sqlConnectionString);
                     });
-                    services.AddTransient<ServiceBusHandler>();
-                    services.AddTransient<IEntityHandler<Product>, ProductHandler>();
-                    services.AddTransient<IEntityHandler<Contact>, ContactHandler>();
-                    services.RegisterEntityMappers().RegisterEntityHandler();
+                    services.RegisterEntityMappers();
+                    services.AddSingleton<QueryBuilder>();
+                    services.AddTransient<IHandler, EntityHandler>();
                 })
                 .ConfigureLogging((context, builder) => { builder.AddConsole(); });
 

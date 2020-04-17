@@ -1,12 +1,13 @@
 ﻿using System;
-using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AN.Integration.Database.Models.Models
 {
-    [Table("Contacts")]
+    [Table("Contacts", Schema = "dbo")]
     public class Contact: IDatabaseTable
     {
-        [ExplicitKey]
+        [Key]
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

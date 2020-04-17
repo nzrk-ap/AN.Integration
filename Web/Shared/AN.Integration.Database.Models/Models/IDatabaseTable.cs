@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace AN.Integration.Database.Models
+namespace AN.Integration.Database.Models.Models
 {
     public interface IDatabaseTable
     {
-        public Guid Id { get; set; }
+        Guid Id { get; set; }
     }
 }

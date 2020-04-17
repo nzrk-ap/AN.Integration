@@ -1,12 +1,13 @@
 ﻿using System;
-using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AN.Integration.Database.Models.Models
 {
-    [Table("Products")]
+    [Table("Products", Schema = "dbo")]
     public class Product : IDatabaseTable
     {
-        [ExplicitKey]
+        [Key]
         public Guid Id { get; set; }
         public string ProductId { get; set; }
         public string Name { get; set; }
