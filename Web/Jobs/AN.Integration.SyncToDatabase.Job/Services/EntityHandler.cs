@@ -1,31 +1,26 @@
-﻿using System.Threading.Tasks;
-using AN.Integration.Database.Client;
-using AN.Integration.Database.Models.Models;
-using AN.Integration.Database.Query;
+﻿//using System.Threading.Tasks;
+//using AN.Integration.Database.Client;
+//using AN.Integration.Database.Models.Models;
 
-namespace AN.Integration.SyncToDatabase.Job.Services
-{
-    internal sealed class EntityHandler : IHandler
-    {
-        private readonly IDatabaseClient _databaseClient;
-        private readonly QueryBuilder _queryBuilder;
+//namespace AN.Integration.SyncToDatabase.Job.Services
+//{
+//    internal sealed class EntityHandler : IHandler
+//    {
+//        private readonly IDatabaseClient _databaseClient;
 
-        public EntityHandler(IDatabaseClient databaseClient, QueryBuilder queryBuilder)
-        {
-            _databaseClient = databaseClient;
-            _queryBuilder = queryBuilder;
-        }
+//        public EntityHandler(IDatabaseClient databaseClient)
+//        {
+//            _databaseClient = databaseClient;
+//        }
 
-        public async Task UpsertAsync(IDatabaseTable model)
-        {
-            //var query = _queryBuilder.GetInsertQuery(model);
-            await _databaseClient.UpsertAsync(model as Contact);
-        }
+//        public async Task UpsertAsync(IDatabaseTable model)
+//        {
+//            await _databaseClient.UpsertAsync(model);
+//        }
 
-        public async Task DeleteAsync(IDatabaseTable model)
-        {
-            //var query = _queryBuilder.GetDeleteQuery(model);
-            await _databaseClient.DeleteAsync(model as Contact);
-        }
-    }
-}
+//        public async Task DeleteAsync(IDatabaseTable model)
+//        {
+//            await _databaseClient.DeleteAsync(model);
+//        }
+//    }
+//}

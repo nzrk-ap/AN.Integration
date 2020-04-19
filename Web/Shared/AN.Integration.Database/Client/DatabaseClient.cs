@@ -4,15 +4,18 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
 using AN.Integration.Database.Models.Models;
+using AN.Integration.Database.Query;
 
 namespace AN.Integration.Database.Client
 {
-    public class SqlServerClient: IDatabaseClient
+    public class DatabaseClient : IDatabaseClient
     {
         private readonly SqlConnection _sqlConnection;
+        private readonly QueryBuilder _queryBuilder;
 
-        public SqlServerClient(string sqlConnectionString)
+        public DatabaseClient(string sqlConnectionString, QueryBuilder queryBuilder)
         {
+            _queryBuilder = queryBuilder;
             _sqlConnection = new SqlConnection(sqlConnectionString);
         }
 
@@ -23,14 +26,16 @@ namespace AN.Integration.Database.Client
 
         public async Task<IEnumerable<T>> SelectAsync<T>(string query) where T : class, IDatabaseTable
         {
-           return await _sqlConnection.GetListAsync<T>(query);
+            return await _sqlConnection.GetListAsync<T>(query);
         }
 
         public async Task UpsertAsync<T>(T singleItem) where T : class, IDatabaseTable
         {
-            if (await _sqlConnection.UpdateAsync(singleItem) == 0)
+            var query = _queryBuilder.GetUpdateQuery(singleItem);
+            if (await _sqlConnection.UpdateAsync(query) != 1)
             {
-                await _sqlConnection.InsertAsync<Guid, T>(singleItem);
+               query = _queryBuilder.GetInsertQuery(singleItem);
+               await _sqlConnection.InsertAsync(query);
             }
         }
 
@@ -38,5 +43,7 @@ namespace AN.Integration.Database.Client
         {
             await _sqlConnection.DeleteAsync(singleItem);
         }
+
+
     }
 }

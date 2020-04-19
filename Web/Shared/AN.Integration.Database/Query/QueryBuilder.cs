@@ -35,15 +35,16 @@ namespace AN.Integration.Database.Query
         public string GetUpdateQuery(IDatabaseTable value)
         {
             _stringBuilder.Clear();
-            _stringBuilder.Append($"update [{value.GetType().Name}]\nset");
+            _stringBuilder.Append($"update [{value.GetType().Name}s]\nset\n");
 
             foreach (var prop in value.GetType().GetProperties())
             {
-                _stringBuilder.Append($"[{prop.Name}] = {prop.GetValue(value)},");
+                var dbValue = DbValue.Convert(prop.GetValue(value));
+                _stringBuilder.Append($"[{prop.Name}] = {dbValue},\n");
             }
 
-            _stringBuilder.Remove(_stringBuilder.Length - 1, 1);
-            _stringBuilder.Append($"\nwhere [id] = {value.Id}");
+            _stringBuilder.Length -= 1;
+            _stringBuilder.Append($"\nwhere [id] = {DbValue.Convert(value.Id)}");
 
             return _stringBuilder.ToString().ToLower();
         }
