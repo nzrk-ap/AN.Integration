@@ -2,7 +2,9 @@
   "profiles": {
     "AN.Integration.SyncToDatabase.Job": {
       "commandName": "Project",
-      "commandLineArgs": " EnvironmentName=\"Development\""
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }

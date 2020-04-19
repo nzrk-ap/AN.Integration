@@ -12,6 +12,8 @@ using AN.Integration.Database.Repositories;
 using AN.Integration.Dynamics.Core.DynamicsTypes;
 using AN.Integration.Dynamics.Core.Extensions;
 using AN.Integration.Dynamics.Core.Utilities;
+using AN.Integration.SyncToDatabase.Job.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AN.Integration.SyncToDatabase.Job.Handlers
 {
@@ -39,30 +41,41 @@ namespace AN.Integration.SyncToDatabase.Job.Handlers
             [ServiceBusTrigger("crm-export")] Message message, ILogger logger)
         {
             var context = ContextSerializer.ToContext(message.Body);
-            var targetRef = context.GetTargetRef();
 
-            var mapper = _mappers.FirstOrDefault(i => i.Key == targetRef.LogicalName).Value;
-            var model = context.MessageType != ContextMessageType.Delete
-                ? mapper.Invoke(context.PreEntityImages["Image"].Merge(context.GetTargetEntity()))
-                : mapper.Invoke(targetRef);
+            await SyncByGenericRepo(GetEntityModel(context), context.MessageType);
 
-            await SyncByGenericRepo(model, context.MessageType);
+            logger.LogInformation($"Message for " +
+                                  $"{context.GetTargetRef().LogicalName}" +
+                                  $":{context.GetTargetRef().Id} handled");
+        }
 
-            logger.LogInformation($"Message for {targetRef.LogicalName}:{targetRef.Id} handled");
+        private IDatabaseTable GetEntityModel(DynamicsContextCore context)
+        {
+            var mapper = _mappers.GetMapper(context.GetTargetRef().LogicalName);
+
+            return context.MessageType switch
+            {
+                var type when type == ContextMessageType.Create ||
+                              type == ContextMessageType.Update
+                              => mapper.Invoke(context.PreEntityImages["Image"].Merge(context.GetTargetEntity())),
+                ContextMessageType.Delete => mapper.Invoke(context.GetTargetRef()),
+                _ => throw new Exception($"Message type {context.MessageType} is not supported")
+            };
         }
 
         private async Task SyncByGenericRepo(IDatabaseTable model, ContextMessageType messageType)
         {
-            var handlerType = typeof(ITableRepo<>).MakeGenericType(model.GetType());
-            var repo = _serviceProvider.GetService(handlerType);
+            var repo = _serviceProvider.GetRequiredService(typeof(ITableRepo<>)
+                .MakeGenericType(model.GetType()));
 
             var methodName = _handlerMethods.FirstOrDefault(h => h.Key == messageType).Value;
             var method = repo.GetType().GetMethod(methodName)
                          ?? throw new Exception($"Method {methodName} is not found");
-            var result = method.Invoke(repo, new object[] { });
+
+            var result = method.Invoke(repo, new object[] { model });
             if (result is null) throw new Exception($"Method {method} execution result is null");
 
-            await ((Task)result);
+            await (Task)result;
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using AN.Integration.Database.Query;
 using AN.Integration.SyncToDatabase.Job.Extensions;
@@ -15,9 +17,10 @@ namespace AN.Integration.SyncToDatabase.Job
         private static async Task Main(string[] args)
         {
             var hostBuilder = new HostBuilder()
+                .UseEnvironment(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    if (Debugger.IsAttached)
+                    if (context.HostingEnvironment.IsDevelopment() && Debugger.IsAttached)
                     {
                         builder.AddUserSecrets<Program>();
                     }
@@ -25,6 +28,11 @@ namespace AN.Integration.SyncToDatabase.Job
                     {
                         builder.AddEnvironmentVariables();
                     }
+
+                    const string environment = nameof(context.HostingEnvironment);
+                    builder.SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json", true, true)
+                        .AddJsonFile($"appsettings.{environment}.json", true, true);
                 })
                 .ConfigureWebJobs((context, builder) =>
                 {
