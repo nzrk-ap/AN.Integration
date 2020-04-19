@@ -1,7 +1,6 @@
-﻿#nullable disable
+﻿#nullable enable
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.Azure.ServiceBus;
@@ -13,7 +12,6 @@ using AN.Integration.Database.Repositories;
 using AN.Integration.Dynamics.Core.DynamicsTypes;
 using AN.Integration.Dynamics.Core.Extensions;
 using AN.Integration.Dynamics.Core.Utilities;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace AN.Integration.SyncToDatabase.Job.Handlers
 {
@@ -30,39 +28,41 @@ namespace AN.Integration.SyncToDatabase.Job.Handlers
                 {ContextMessageType.Delete, "DeleteAsync"}
             };
 
-        public ServiceBusHandler(IServiceProvider serviceProvider, 
+        public ServiceBusHandler(IServiceProvider serviceProvider,
             IDictionary<string, Func<IExtensibleDataObject, IDatabaseTable>> mappers)
         {
             _serviceProvider = serviceProvider;
             _mappers = mappers;
         }
 
-        public Task HandleMessage(
+        public async Task HandleMessage(
             [ServiceBusTrigger("crm-export")] Message message, ILogger logger)
         {
             var context = ContextSerializer.ToContext(message.Body);
             var targetRef = context.GetTargetRef();
+
             var mapper = _mappers.FirstOrDefault(i => i.Key == targetRef.LogicalName).Value;
             var model = context.MessageType != ContextMessageType.Delete
                 ? mapper.Invoke(context.PreEntityImages["Image"].Merge(context.GetTargetEntity()))
                 : mapper.Invoke(targetRef);
 
-            var repoType = typeof(ITableRepo<>).MakeGenericType(typeof(TableRepo<Contact>));
-            var service =_serviceProvider.GetService(repoType);
+            await SyncByGenericRepo(model, context.MessageType);
 
-            var methodName = _handlerMethods.FirstOrDefault(h => h.Key == context.MessageType).Value;
-            var repo = typeof(Program).Assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(ITableRepo<IDatabaseTable>))) 
-                       ?? throw new Exception($"Repo for {model.GetType().Name} is not found");
-            ////var instance = Activator.CreateInstance(repo, 
-            ////    _serviceProvider.GetRequiredService<SqlConnection>());
-
-            ////var method = repo.GetMethod(methodName);
-
-
-            ////method?.Invoke(instance, new object[] {model});
             logger.LogInformation($"Message for {targetRef.LogicalName}:{targetRef.Id} handled");
+        }
 
-            return Task.CompletedTask;
+        private async Task SyncByGenericRepo(IDatabaseTable model, ContextMessageType messageType)
+        {
+            var handlerType = typeof(ITableRepo<>).MakeGenericType(model.GetType());
+            var repo = _serviceProvider.GetService(handlerType);
+
+            var methodName = _handlerMethods.FirstOrDefault(h => h.Key == messageType).Value;
+            var method = repo.GetType().GetMethod(methodName)
+                         ?? throw new Exception($"Method {methodName} is not found");
+            var result = method.Invoke(repo, new object[] { });
+            if (result is null) throw new Exception($"Method {method} execution result is null");
+
+            await ((Task)result);
         }
     }
 }

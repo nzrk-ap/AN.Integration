@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using AN.Integration.Database.Models.Models;
 using Dapper;
@@ -7,7 +8,7 @@ namespace AN.Integration.Database.Repositories
 {
     public sealed class ContactRepo : TableRepo<Contact>
     {
-        public ContactRepo(string connectionStr) : base(connectionStr)
+        public ContactRepo(SqlConnection connection) : base(connection)
         {
         }
 

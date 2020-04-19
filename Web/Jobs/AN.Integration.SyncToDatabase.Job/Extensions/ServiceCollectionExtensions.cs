@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using AN.Integration.Database.Models.Models;
 using AN.Integration.Database.Repositories;
@@ -27,9 +29,22 @@ namespace AN.Integration.SyncToDatabase.Job.Extensions
 
         public static void RegisterRepo(this IServiceCollection serviceCollection)
         {
-            serviceCollection.Add(new ServiceDescriptor(
-                typeof(ITableRepo<IDatabaseTable>), 
-                typeof(ContactRepo)));
+            var assemblyTypes = Assembly.GetAssembly(typeof(ITableRepo<>)).GetTypes();
+
+            var handlersByInterfaces = assemblyTypes
+                .Select(type => (type, requestHandlers: GetImplementedRequestTypeInterfaces(type)))
+                .Where(pair => pair.requestHandlers.Any())
+                .SelectMany(pair => pair.requestHandlers.Select(handlerInterface => (handlerInterface, handlerImplementation: pair.type)))
+                .Where(pair => !pair.handlerImplementation.IsAbstract)
+                .GroupBy(pair => pair.handlerInterface, pair => pair.handlerImplementation);
+
+            foreach (var handlerType in handlersByInterfaces)
+            {
+                serviceCollection.Add(new ServiceDescriptor(handlerType.Key, handlerType.Single(), ServiceLifetime.Transient));
+            }
+
+            static List<Type> GetImplementedRequestTypeInterfaces(Type type)
+                => type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ITableRepo<>)).ToList();
         }
     }
 }
