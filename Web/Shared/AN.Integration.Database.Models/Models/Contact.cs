@@ -13,8 +13,7 @@ namespace AN.Integration.Database.Models.Models
         public string LastName { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
-        [Required]
         [ForeignKey("Accounts")]
-        public Guid AccountId { get; set; }
+        public Guid? AccountId { get; set; }
     }
 }

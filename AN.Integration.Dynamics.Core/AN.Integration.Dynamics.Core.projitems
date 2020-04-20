@@ -13,7 +13,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ContextMessageType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\DynamicsContextCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\DataCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\IEntityCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ImageCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\OptionSetCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ParameterCollectionCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ReferenceCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\EntityCore.cs" />

@@ -1,5 +1,4 @@
 ﻿using AN.Integration.Database.Models.Models;
-using AN.Integration.Dynamics.Core.Extensions;
 using AN.Integration.Mapper.Extensions;
 
 namespace AN.Integration.Mapper.Profiles

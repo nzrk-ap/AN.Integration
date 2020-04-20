@@ -25,6 +25,10 @@ namespace AN.Integration.Mapper.Profiles
                 if (source is ReferenceCore rc) return rc.Id;
                 return null;
             });
+
+            CreateMap<object, Enum>().ConvertUsing(value =>
+                (Enum)Enum.ToObject(typeof(TypeCode), ((OptionSetCore)value).Value)
+            );
         }
 
         protected IMappingExpression<EntityCore, TDestination> CreateEntityMap<TDestination>()

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace AN.Integration.Dynamics.Core.DynamicsTypes
 {
     [DataContract]
-    public class ReferenceCore : IExtensibleDataObject
+    public class ReferenceCore : IEntityCore
     {
         private string _logicalName;
         private string _name;
@@ -43,7 +43,5 @@ namespace AN.Integration.Dynamics.Core.DynamicsTypes
             get => _name;
             set => _name = value;
         }
-
-        public ExtensionDataObject ExtensionData { get; set; }
     }
 }

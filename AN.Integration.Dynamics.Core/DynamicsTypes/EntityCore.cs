@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace AN.Integration.Dynamics.Core.DynamicsTypes
 {
     [DataContract]
-    public class EntityCore : IExtensibleDataObject
+    public sealed class EntityCore : IEntityCore
     {
         private string _logicalName;
         private Guid _id;
@@ -35,7 +35,7 @@ namespace AN.Integration.Dynamics.Core.DynamicsTypes
         }
 
         [DataMember]
-        public virtual Guid Id
+        public Guid Id
         {
             get => _id;
             set => _id = value;
@@ -54,15 +54,13 @@ namespace AN.Integration.Dynamics.Core.DynamicsTypes
             set => Attributes[attributeName] = value;
         }
 
-        public ExtensionDataObject ExtensionData { get; set; }
-
         public bool Contains(string attributeName) =>
             Attributes.Contains(attributeName);
 
         public ReferenceCore ToEntityReference() =>
             new ReferenceCore(LogicalName, Id);
 
-        public virtual T GetAttributeValue<T>(string attributeLogicalName)
+        public T GetAttributeValue<T>(string attributeLogicalName)
         {
             var attributeValue = GetAttributeValue(attributeLogicalName);
             return attributeValue == null ? default : (T)attributeValue;

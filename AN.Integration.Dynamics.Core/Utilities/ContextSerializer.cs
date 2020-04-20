@@ -15,6 +15,7 @@ namespace AN.Integration.Dynamics.Core.Utilities
             {
                 typeof(EntityCore),
                 typeof(ReferenceCore),
+                typeof(OptionSetCore)
             };
 
             var serializerSettings = new DataContractJsonSerializerSettings
@@ -39,6 +40,7 @@ namespace AN.Integration.Dynamics.Core.Utilities
             {
                 typeof(EntityCore),
                 typeof(ReferenceCore),
+                typeof(OptionSetCore)
             };
 
             var serializerSettings = new DataContractJsonSerializerSettings

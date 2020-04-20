@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -20,7 +19,7 @@ namespace AN.Integration.SyncToDatabase.Job.Handlers
     public class ServiceBusHandler
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IDictionary<string, Func<IExtensibleDataObject, IDatabaseTable>> _mappers;
+        private readonly IDictionary<string, Func<IEntityCore, IDatabaseTable>> _mappers;
 
         private readonly Dictionary<ContextMessageType, string> _handlerMethods =
             new Dictionary<ContextMessageType, string>
@@ -31,7 +30,7 @@ namespace AN.Integration.SyncToDatabase.Job.Handlers
             };
 
         public ServiceBusHandler(IServiceProvider serviceProvider,
-            IDictionary<string, Func<IExtensibleDataObject, IDatabaseTable>> mappers)
+            IDictionary<string, Func<IEntityCore, IDatabaseTable>> mappers)
         {
             _serviceProvider = serviceProvider;
             _mappers = mappers;

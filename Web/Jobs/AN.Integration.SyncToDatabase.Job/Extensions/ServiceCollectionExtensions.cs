@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using AN.Integration.Database.Models.Models;
 using AN.Integration.Database.Repositories;
+using AN.Integration.Dynamics.Core.DynamicsTypes;
 using AN.Integration.Mapper.Profiles;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +19,8 @@ namespace AN.Integration.SyncToDatabase.Job.Extensions
             var mapper = mappingConfig.CreateMapper();
             serviceCollection.AddSingleton(mapper);
 
-            return serviceCollection.AddSingleton<IDictionary<string, Func<IExtensibleDataObject, IDatabaseTable>>>(
-                new Dictionary<string, Func<IExtensibleDataObject, IDatabaseTable>>()
+            return serviceCollection.AddSingleton<IDictionary<string, Func<IEntityCore, IDatabaseTable>>>(
+                new Dictionary<string, Func<IEntityCore, IDatabaseTable>>()
                 {
                     {"contact", entity => mapper.Map<Contact>(entity)},
                     {"product", entity => mapper.Map<Product>(entity)},

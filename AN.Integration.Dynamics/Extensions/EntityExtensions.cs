@@ -164,7 +164,7 @@ namespace AN.Integration.Dynamics.Extensions
                 Guid g => g,
                 DateTime dt => dt,
                 Money m => m.Value,
-                OptionSetValue osv => osv.Value,
+                OptionSetValue osv => new OptionSetCore(osv.Value),
                 EntityReference er => new ReferenceCore(er.LogicalName, er.Id),
                 _ => throw new ArgumentException($"Type conversion for {attribute.Value.GetType().Name} is not supported")
             };
