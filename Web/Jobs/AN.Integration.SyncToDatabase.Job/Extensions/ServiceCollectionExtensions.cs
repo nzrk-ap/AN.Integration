@@ -23,7 +23,8 @@ namespace AN.Integration.SyncToDatabase.Job.Extensions
                 new Dictionary<string, Func<IExtensibleDataObject, IDatabaseTable>>()
                 {
                     {"contact", entity => mapper.Map<Contact>(entity)},
-                    {"product", entity => mapper.Map<Product>(entity)}
+                    {"product", entity => mapper.Map<Product>(entity)},
+                    {"account", entity => mapper.Map<Account>(entity)}
                 });
         }
 

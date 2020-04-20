@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using AN.Integration.Database.Models.Models;
+using Dapper;
 
 namespace AN.Integration.Database.Repositories
 {
-    public abstract class TableRepo<TEntity> : ITableRepo<TEntity> where TEntity: class, IDatabaseTable
+    public abstract class TableRepo<TEntity> : ITableRepo<TEntity> where TEntity : class, IDatabaseTable
     {
         protected readonly SqlConnection Connection;
 
@@ -14,11 +16,36 @@ namespace AN.Integration.Database.Repositories
             Connection = connection;
         }
 
-        public abstract Task<TEntity> SelectAsync(Guid id);
+        public virtual async Task<TEntity> SelectAsync(Guid id)
+        {
+            return await Connection.GetAsync<TEntity>(id);
+        }
 
-        public abstract Task DeleteAsync(TEntity singleItem);
+        public virtual async Task<IEnumerable<TEntity>> SelectItemsAsync(string whereQuery)
+        {
+            return await Connection.GetListAsync<TEntity>(whereQuery);
+        }
 
-        public abstract Task UpsertAsync(TEntity singleItem);
+        public virtual async Task DeleteAsync(TEntity singleItem)
+        {
+            await Connection.OpenAsync();
+            await using var transaction = await Connection.BeginTransactionAsync();
+            await Connection.DeleteAsync(singleItem, transaction);
+            await transaction.CommitAsync();
+            await Connection.CloseAsync();
+        }
+
+        public virtual async Task UpsertAsync(TEntity singleItem)
+        {
+            await Connection.OpenAsync();
+            await using var transaction = await Connection.BeginTransactionAsync();
+            if (await Connection.UpdateAsync(singleItem, transaction) != 1)
+            {
+                await Connection.InsertAsync<Guid, TEntity>(singleItem, transaction);
+            }
+            await transaction.CommitAsync();
+            await Connection.CloseAsync();
+        }
 
         #region IDisposable Support
 

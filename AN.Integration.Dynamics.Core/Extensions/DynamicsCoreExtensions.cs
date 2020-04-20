@@ -23,5 +23,8 @@ namespace AN.Integration.Dynamics.Core.Extensions
 
         public static DateTime GetDateTime(this EntityCore entity, string attributeName) =>
             entity.GetAttributeValue<DateTime>(attributeName);
+
+        public static ReferenceCore GetReference(this EntityCore entity, string attributeName) =>
+            entity.GetAttributeValue<ReferenceCore>(attributeName);
     }
 }

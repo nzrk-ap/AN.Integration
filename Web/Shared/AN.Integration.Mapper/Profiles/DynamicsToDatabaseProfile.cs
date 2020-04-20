@@ -1,32 +1,30 @@
 ﻿using AN.Integration.Database.Models.Models;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
 using AN.Integration.Dynamics.Core.Extensions;
-using AutoMapper;
+using AN.Integration.Mapper.Extensions;
 
 namespace AN.Integration.Mapper.Profiles
 {
-    public sealed class DynamicsToDatabaseProfile : Profile
+    public sealed class DynamicsToDatabaseProfile : DynamicsCoreProfile
     {
         public DynamicsToDatabaseProfile()
         {
-            CreateMap<ReferenceCore, Contact>()
-                .ForMember(d => d.Id, o => o.MapFrom(s => s.Id));
+            CreateEntityMap<Product>()
+                .MapField(s => s.Id, d => d.Id)
+                .MapField("productnumber", d => d.ProductId)
+                .MapField("name", d => d.Name);
 
-            CreateMap<ReferenceCore, Product>()
-                .ForMember(d => d.Id, o => o.MapFrom(s => s.Id));
+            CreateEntityMap<Account>()
+                .MapField(s => s.Id, d => d.Id)
+                .MapField("name", d => d.Name);
 
-            CreateMap<EntityCore, Contact>()
-                .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
-                .ForMember(d => d.FirstName, o => o.MapFrom(s => s.GetText("firstname")))
-                .ForMember(d => d.LastName, o => o.MapFrom(s => s.GetText("lastname")))
-                .ForMember(d => d.Email, o => o.MapFrom(s => s.GetText("email")))
-                .ForMember(d => d.Mobile, o => o.MapFrom(s => s.GetText("mobilephone")))
-                .ForMember(d => d.Email, o => o.MapFrom(s => s.GetText("emailaddress1")));
-
-            CreateMap<EntityCore, Product>()
-                .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
-                .ForMember(d => d.ProductId, o => o.MapFrom(s => s.GetText("productnumber")))
-                .ForMember(d => d.Name, o => o.MapFrom(s => s.GetText("name")));
+            CreateEntityMap<Contact>()
+                .MapField(s => s.Id, d => d.Id)
+                .MapField("firstname", d => d.FirstName)
+                .MapField("lastname", d => d.LastName)
+                .MapField("email", d => d.Email)
+                .MapField("mobilephone", d => d.Mobile)
+                .MapField("emailaddress1", d => d.Email)
+                .MapField("an_accountid", d => d.AccountId);
         }
     }
 }

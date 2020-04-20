@@ -3,9 +3,9 @@ using AN.Integration.Database.Models.Models;
 
 namespace AN.Integration.Database.Repositories
 {
-    public sealed class ProductRepo: TableRepo<Product>
+    public sealed class AccountRepo : TableRepo<Account>
     {
-        public ProductRepo(SqlConnection connection) : base(connection)
+        public AccountRepo(SqlConnection connection) : base(connection)
         {
         }
     }
