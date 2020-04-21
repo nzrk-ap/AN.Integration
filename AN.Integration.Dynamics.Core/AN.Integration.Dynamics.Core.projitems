@@ -9,6 +9,13 @@
     <Import_RootNamespace>AN.Integration.Dynamics.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\Conversion\AttributeValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\Conversion\IAttributeValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\DynamicsConnector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\EntityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\IDynamicsConnector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\IEntityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\OAuth\ClientOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\AttributeCollectionCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ContextMessageType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\DynamicsContextCore.cs" />
@@ -22,5 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsContextCoreExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsCoreExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ContextSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\DataSerializer.cs" />
   </ItemGroup>
 </Project>
