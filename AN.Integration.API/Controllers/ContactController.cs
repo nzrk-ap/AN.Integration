@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AN.Integration.Models._1C.Dto;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
+using AN.Integration._1C.Messages;
+using AN.Integration._1C.Models;
+using AN.Integration.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AN.Integration.API.Controllers
@@ -12,22 +10,44 @@ namespace AN.Integration.API.Controllers
     [ApiController]
     public class ContactController : ControllerBase
     {
-        [HttpPost]
-        public async Task<IActionResult> Post(Product product)
+        private readonly HttpQueueClient _httpQueueClient;
+
+        public ContactController(HttpQueueClient httpQueueClient)
         {
-            return Ok();
+            _httpQueueClient = httpQueueClient;
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put(Product product)
+        [HttpPost]
+        public async Task<IActionResult> Post(Contact contact)
         {
-            return Ok();
+            if (contact is null)
+                return BadRequest($"{nameof(Contact)} is not valid");
+
+            var (statusCode, content) = await _httpQueueClient
+                .SendMessageAsync(new UpsertMessage<Contact>(contact));
+            return StatusCode(statusCode, content);
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> Patch(Contact contact)
+        {
+            if (contact is null)
+                return BadRequest($"{nameof(Contact)} is not valid");
+
+            var (statusCode, content) = await _httpQueueClient
+                .SendMessageAsync(new UpsertMessage<Contact>(contact));
+            return StatusCode(statusCode, content);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(string code)
+        public async Task<IActionResult> Delete(Contact contact)
         {
-            return Ok();
+            if (contact is null)
+                return BadRequest($"{nameof(Contact)} is not valid");
+
+            var (statusCode, content) = await _httpQueueClient
+                .SendMessageAsync(new DeleteMessage<Contact>(contact.Code));
+            return StatusCode(statusCode, content);
         }
     }
 }

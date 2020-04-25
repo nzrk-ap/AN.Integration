@@ -39,6 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C2A9C2AF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{56E8BEAB-45F0-4C35-8E29-49E4C7CEF098}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AN.Integration.SyncToDynamics.Job", "AN.Integration.SyncToDynamics.Job\AN.Integration.SyncToDynamics.Job.csproj", "{3A3585ED-C259-4BA3-AB1F-853DFB11A739}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		AN.Integration.Dynamics.Core\AN.Integration.Dynamics.Core.projitems*{3d474130-8002-47ee-9309-49cdf351f017}*SharedItemsImports = 13
@@ -82,6 +84,10 @@ Global
 		{56E8BEAB-45F0-4C35-8E29-49E4C7CEF098}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56E8BEAB-45F0-4C35-8E29-49E4C7CEF098}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56E8BEAB-45F0-4C35-8E29-49E4C7CEF098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A3585ED-C259-4BA3-AB1F-853DFB11A739}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A3585ED-C259-4BA3-AB1F-853DFB11A739}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A3585ED-C259-4BA3-AB1F-853DFB11A739}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A3585ED-C259-4BA3-AB1F-853DFB11A739}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{40CB5942-AE1C-42AE-B224-8A015C9CC285} = {2D198D28-CD52-4111-A84E-2E5636A966AC}
 		{EC5C01DC-E125-440A-B936-F691E0B5EB88} = {31E3D244-7D24-48C5-B976-5F84B056B8E9}
 		{56E8BEAB-45F0-4C35-8E29-49E4C7CEF098} = {C2A9C2AF-3EBD-4E94-B993-5F11CEBD93F8}
+		{3A3585ED-C259-4BA3-AB1F-853DFB11A739} = {752F371F-1B59-4914-BD0C-A80A99904053}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AEFD533-5871-455D-877C-3BFB3B59F973}

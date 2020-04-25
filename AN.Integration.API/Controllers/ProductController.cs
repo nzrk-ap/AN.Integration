@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AN.Integration._1C.Messages;
 using AN.Integration.API.Services;
 using AN.Integration.Models._1C.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -19,20 +20,34 @@ namespace AN.Integration.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Product product)
         {
-            await _httpQueueClient.SendMessageAsync(product);
-            return Ok();
+            if (product is null)
+                return BadRequest($"{nameof(Product)} is not valid");
+
+            var (statusCode, content) = await _httpQueueClient
+                .SendMessageAsync(new UpsertMessage<Product>(product));
+            return StatusCode(statusCode, content);
         }
 
-        [HttpPut]
-        public Task Put(ProductDto product)
+        [HttpPatch]
+        public async Task<IActionResult> Patch(Product product)
         {
-            return Task.CompletedTask;
+            if (product is null)
+                return BadRequest($"{nameof(Product)} is not valid");
+
+            var (statusCode, content) = await _httpQueueClient
+                .SendMessageAsync(new UpsertMessage<Product>(product));
+            return StatusCode(statusCode, content);
         }
 
         [HttpDelete]
-        public Task Delete(string code)
+        public async Task<IActionResult> Delete(Product product)
         {
-            return Task.CompletedTask;
+            if (product is null)
+                return BadRequest($"{nameof(Product)} is not valid");
+
+            var (statusCode, content) = await _httpQueueClient
+                .SendMessageAsync(new DeleteMessage<Product>(product.Code));
+            return StatusCode(statusCode, content);
         }
     }
 }

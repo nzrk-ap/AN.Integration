@@ -16,15 +16,19 @@ namespace AN.Integration.API.Services
             _queueEndpointUrl = queueEndpointUrl;
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Add
-            ("Authorization", serviceBusExportQueueuSasKey);
+                ("Authorization", serviceBusExportQueueuSasKey);
         }
 
-        public async Task SendMessageAsync<T>(T value)
+        public async Task<(int statusCode, string content)> SendMessageAsync<T>(T value)
         {
-            await _httpClient.PostAsync(_queueEndpointUrl, ToContent(value));
+            var result = await _httpClient.PostAsync(_queueEndpointUrl, ToContent(value));
+            return ((int) result.StatusCode, await ReadContent(result));
         }
 
-        public StringContent ToContent<T>(T value) =>
+        public static StringContent ToContent<T>(T value) =>
             new StringContent(JsonSerializer.ToJson(value), Encoding.UTF8, "application/json");
+
+        public static async Task<string> ReadContent(HttpResponseMessage response) =>
+            await response.Content.ReadAsStringAsync();
     }
 }

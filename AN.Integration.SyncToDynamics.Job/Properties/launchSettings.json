@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AN.Integration.SyncToDynamics.Job": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

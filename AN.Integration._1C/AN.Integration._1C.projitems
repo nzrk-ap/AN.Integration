@@ -9,6 +9,8 @@
     <Import_RootNamespace>AN.Integration._1C</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\DeleteMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\UpsertMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Account.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Contact.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product.cs" />
