@@ -1,7 +1,10 @@
 using System;
+using AN.Integration.API.Filters;
 using AN.Integration.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,13 +34,17 @@ namespace AN.Integration.API
         {
             services.AddControllers(options =>
             {
-                //options.Filters.Add(typeof(AuthorizationFilter));
+                options.Filters.Add(typeof(AuthorizationFilter));
+                options.Filters.Add(new ConsumesAttribute("application/json"));
             }).AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.ReferenceLoopHandling = 
+                options.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+
             services.AddHttpClient();
+            services.AddScoped<AuthorizationFilter>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient(provider =>
             {

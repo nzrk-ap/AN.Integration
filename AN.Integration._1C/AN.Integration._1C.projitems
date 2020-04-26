@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Messages\UpsertMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Account.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Contact.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\IOneCData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product.cs" />
   </ItemGroup>
 </Project>

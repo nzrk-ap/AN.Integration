@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using AN.Integration.API.Extensions;
+using AN.Integration.API.Services;
 using AN.Integration._1C.Messages;
 using AN.Integration._1C.Models;
-using AN.Integration.API.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AN.Integration.API.Controllers
 {
@@ -11,17 +13,20 @@ namespace AN.Integration.API.Controllers
     public class ContactController : ControllerBase
     {
         private readonly HttpQueueClient _httpQueueClient;
+        private readonly ILogger<ContactController> _logger;
 
-        public ContactController(HttpQueueClient httpQueueClient)
+        public ContactController(HttpQueueClient httpQueueClient, ILogger<ContactController> logger)
         {
             _httpQueueClient = httpQueueClient;
+            _logger = logger;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(Contact contact)
         {
-            if (contact is null)
-                return BadRequest($"{nameof(Contact)} is not valid");
+            EnsureIsValid(contact);
+
+            _logger.LogIsOk<Contact>(contact.Code, nameof(Post));
 
             var (statusCode, content) = await _httpQueueClient
                 .SendMessageAsync(new UpsertMessage<Contact>(contact));
@@ -31,8 +36,9 @@ namespace AN.Integration.API.Controllers
         [HttpPatch]
         public async Task<IActionResult> Patch(Contact contact)
         {
-            if (contact is null)
-                return BadRequest($"{nameof(Contact)} is not valid");
+            EnsureIsValid(contact);
+
+            _logger.LogIsOk<Contact>(contact.Code, nameof(Patch));
 
             var (statusCode, content) = await _httpQueueClient
                 .SendMessageAsync(new UpsertMessage<Contact>(contact));
@@ -42,12 +48,24 @@ namespace AN.Integration.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(Contact contact)
         {
-            if (contact is null)
-                return BadRequest($"{nameof(Contact)} is not valid");
+            EnsureIsValid(contact);
+
+            _logger.LogIsOk<Contact>(contact.Code, nameof(Delete));
 
             var (statusCode, content) = await _httpQueueClient
                 .SendMessageAsync(new DeleteMessage<Contact>(contact.Code));
             return StatusCode(statusCode, content);
+        }
+
+        private void EnsureIsValid(IOneCData contact)
+        {
+            if (contact is null || string.IsNullOrEmpty(contact.Code))
+            {
+                BadRequest($"{typeof(Contact)} is not valid");
+                return;
+            }
+
+            Ok();
         }
     }
 }

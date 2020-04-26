@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AN.Integration._1C.Models
 {
-    public class Contact
+    public class Contact: IOneCData
     {
-        [StringLength(4, ErrorMessage = "Product code max length is exceeded")]
+        [MinLength(4, ErrorMessage = "Contact code must contain no less 4 symbols")]
+        [MaxLength(4, ErrorMessage = "Contact code must contain no more 4 symbols")]
         public string Code { get; set; }
-
         public string Name { get; set; }
     }
 }
