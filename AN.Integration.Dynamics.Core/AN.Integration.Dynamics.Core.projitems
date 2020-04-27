@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\EntityCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsContextCoreExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsCoreExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ContactMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ContextSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\DataSerializer.cs" />
   </ItemGroup>

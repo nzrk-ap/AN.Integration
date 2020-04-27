@@ -24,8 +24,6 @@ namespace AN.Integration.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Contact contact)
         {
-            EnsureIsValid(contact);
-
             _logger.LogIsOk<Contact>(contact.Code, nameof(Post));
 
             var (statusCode, content) = await _httpQueueClient
@@ -36,8 +34,6 @@ namespace AN.Integration.API.Controllers
         [HttpPatch]
         public async Task<IActionResult> Patch(Contact contact)
         {
-            EnsureIsValid(contact);
-
             _logger.LogIsOk<Contact>(contact.Code, nameof(Patch));
 
             var (statusCode, content) = await _httpQueueClient
@@ -48,24 +44,11 @@ namespace AN.Integration.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(Contact contact)
         {
-            EnsureIsValid(contact);
-
             _logger.LogIsOk<Contact>(contact.Code, nameof(Delete));
 
             var (statusCode, content) = await _httpQueueClient
                 .SendMessageAsync(new DeleteMessage<Contact>(contact.Code));
             return StatusCode(statusCode, content);
-        }
-
-        private void EnsureIsValid(IOneCData contact)
-        {
-            if (contact is null || string.IsNullOrEmpty(contact.Code))
-            {
-                BadRequest($"{typeof(Contact)} is not valid");
-                return;
-            }
-
-            Ok();
         }
     }
 }
