@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AN.Integration.Database.Models.Models;
-using AN.Integration.Database.Repositories;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
-using AN.Integration.Mapper.Profiles;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using AN.Integration.Database.Models.Models;
+using AN.Integration.Database.Repositories;
+using AN.Integration.DynamicsCore.CoreTypes;
+using AN.Integration.Mapper.Profiles;
 
 namespace AN.Integration.SyncToDatabase.Job.Extensions
 {
@@ -17,7 +17,6 @@ namespace AN.Integration.SyncToDatabase.Job.Extensions
         {
             var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new DynamicsToDatabaseProfile()); });
             var mapper = mappingConfig.CreateMapper();
-            serviceCollection.AddSingleton(mapper);
 
             return serviceCollection.AddSingleton<IDictionary<string, Func<IEntityCore, IDatabaseTable>>>(
                 new Dictionary<string, Func<IEntityCore, IDatabaseTable>>()

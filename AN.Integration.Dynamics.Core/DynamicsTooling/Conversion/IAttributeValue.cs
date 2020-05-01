@@ -1,4 +1,4 @@
-﻿namespace AN.Integration.Dynamics.Core.DynamicsTooling.Convert
+﻿namespace AN.Integration.DynamicsCore.DynamicsTooling.Convert
 {
     internal interface IAttributeValue
     {

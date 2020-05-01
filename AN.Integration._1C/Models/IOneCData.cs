@@ -5,6 +5,6 @@ namespace AN.Integration._1C.Models
     public interface IOneCData
     {
         [JsonProperty(Required = Required.Always)]
-        public string Code { get; set; }
+        string Code { get; set; }
     }
 }

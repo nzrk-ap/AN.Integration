@@ -1,4 +1,4 @@
-﻿namespace AN.Integration.Dynamics.Core.DynamicsTypes
+﻿namespace AN.Integration.DynamicsCore.CoreTypes
 {
     public class AttributeCollectionCore : DataCollectionCore<string, object>
     {

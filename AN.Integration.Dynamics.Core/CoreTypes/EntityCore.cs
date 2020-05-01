@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace AN.Integration.Dynamics.Core.DynamicsTypes
+namespace AN.Integration.DynamicsCore.CoreTypes
 {
     [DataContract]
     public sealed class EntityCore : IEntityCore
@@ -64,6 +64,13 @@ namespace AN.Integration.Dynamics.Core.DynamicsTypes
         {
             var attributeValue = GetAttributeValue(attributeLogicalName);
             return attributeValue == null ? default : (T)attributeValue;
+        }
+
+        public void SetAttribute<T>(string attributeLogicalName, T value)
+        {
+            if (string.IsNullOrWhiteSpace(attributeLogicalName))
+                throw new ArgumentNullException(nameof(attributeLogicalName));
+            this[attributeLogicalName] = value;
         }
 
         private object GetAttributeValue(string attributeLogicalName)

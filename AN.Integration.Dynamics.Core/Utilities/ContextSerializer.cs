@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
+using AN.Integration.DynamicsCore.CoreTypes;
 
-namespace AN.Integration.Dynamics.Core.Utilities
+namespace AN.Integration.DynamicsCore.Utilities
 {
     public static class ContextSerializer
     {

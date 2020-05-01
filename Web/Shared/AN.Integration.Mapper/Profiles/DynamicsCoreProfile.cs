@@ -1,6 +1,6 @@
 ﻿using System;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
 using AutoMapper;
+using AN.Integration.DynamicsCore.CoreTypes;
 
 namespace AN.Integration.Mapper.Profiles
 {

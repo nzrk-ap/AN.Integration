@@ -1,7 +1,7 @@
 ﻿using System;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
+using AN.Integration.DynamicsCore.CoreTypes;
 
-namespace AN.Integration.Dynamics.Core.Extensions
+namespace AN.Integration.DynamicsCore.Extensions
 {
     public static class DynamicsContextCoreExtensions
     {

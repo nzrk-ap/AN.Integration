@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace AN.Integration.Dynamics.Core.Utilities
+namespace AN.Integration.DynamicsCore.Utilities
 {
     public static class DataSerializer
     {

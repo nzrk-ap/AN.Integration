@@ -1,13 +1,12 @@
-﻿using AN.Integration.Dynamics.EntityProviders;
-using AN.Integration.Dynamics.Extensions;
-using AN.Integration.Dynamics.Models;
-using Microsoft.Xrm.Sdk;
-using System;
-using System.Linq;
+﻿using System;
 using System.Net.Http;
 using System.Text;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
-using AN.Integration.Dynamics.Core.Utilities;
+using Microsoft.Xrm.Sdk;
+using AN.Integration.Dynamics.EntityProviders;
+using AN.Integration.Dynamics.Extensions;
+using AN.Integration.Dynamics.Models;
+using AN.Integration.DynamicsCore.CoreTypes;
+using AN.Integration.DynamicsCore.Utilities;
 
 namespace AN.Integration.Sender.Messages
 {
@@ -50,18 +49,10 @@ namespace AN.Integration.Sender.Messages
                     MessageType = (ContextMessageType)
                         Enum.Parse(typeof(ContextMessageType), context.MessageName),
                     UserId = context.UserId,
-                    InputParameters = context.InputParameters.ToCollectionCore()
+                    InputParameters = context.InputParameters.ToCollectionCore(),
+                    PreEntityImages = context.PreEntityImages.ToCollectionCore(),
+                    PostEntityImages = context.PostEntityImages.ToCollectionCore()
                 };
-
-                if (context.PreEntityImages.Any())
-                {
-                    contextCore.PreEntityImages = context.PreEntityImages.ToCollectionCore();
-                }
-
-                if (context.PostEntityImages.Any())
-                {
-                    contextCore.PostEntityImages = context.PostEntityImages.ToCollectionCore();
-                }
 
                 var httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Add("Authorization", settings.ServiceBusExportQueueuSasKey);

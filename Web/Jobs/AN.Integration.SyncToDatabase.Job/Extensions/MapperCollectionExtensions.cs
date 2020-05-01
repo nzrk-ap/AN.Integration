@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
+using AN.Integration.DynamicsCore.CoreTypes;
 
 namespace AN.Integration.SyncToDatabase.Job.Extensions
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace AN.Integration.Dynamics.Core.DynamicsTypes
+namespace AN.Integration.DynamicsCore.CoreTypes
 {
     public abstract class DataCollectionCore<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {

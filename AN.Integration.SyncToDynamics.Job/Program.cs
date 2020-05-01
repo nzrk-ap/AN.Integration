@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using AN.Integration.SyncToDynamics.Job.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -33,13 +34,16 @@ namespace AN.Integration.SyncToDynamics.Job
                 .ConfigureWebJobs((context, builder) =>
                 {
                     builder.AddAzureStorageCoreServices();
-                    builder.AddServiceBus((ops) =>
+                    builder.AddServiceBus(ops =>
                     {
                         ops.ConnectionString = context.Configuration
                             .GetConnectionString("ApiExportQueue");
                     });
                 })
-                .ConfigureServices((context, services) => { })
+                .ConfigureServices((context, services) =>
+                {
+                    services.RegisterEntityMappers();
+                })
                 .ConfigureLogging((context, builder) => { builder.AddConsole(); });
 
             using var host = hostBuilder.Build();

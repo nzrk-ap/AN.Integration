@@ -1,8 +1,8 @@
 ﻿using System;
-using AN.Integration.Dynamics.Core.DynamicsTooling.Convert;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
+using AN.Integration.DynamicsCore.CoreTypes;
+using AN.Integration.DynamicsCore.DynamicsTooling.Convert;
 
-namespace AN.Integration.Dynamics.Core.DynamicsTooling.Conversion
+namespace AN.Integration.DynamicsCore.DynamicsTooling.Conversion
 {
     internal class AttributeValue: IAttributeValue
     {

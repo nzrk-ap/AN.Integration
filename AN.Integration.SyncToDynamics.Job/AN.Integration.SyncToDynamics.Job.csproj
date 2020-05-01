@@ -22,6 +22,12 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Web\Shared\AN.Integration.Database.Models\AN.Integration.Database.Models.csproj" />
+    <ProjectReference Include="..\Web\Shared\AN.Integration.Mapper\AN.Integration.Mapper.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
+using AN.Integration.DynamicsCore.CoreTypes;
 
-namespace AN.Integration.Dynamics.Core.DynamicsTooling
+namespace AN.Integration.DynamicsCore.DynamicsTooling
 {
     internal interface IDynamicsConnector
     {

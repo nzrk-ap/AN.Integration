@@ -4,10 +4,10 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AN.Integration.Dynamics.Core.DynamicsTooling.OAuth;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
+using AN.Integration.DynamicsCore.CoreTypes;
+using AN.Integration.DynamicsCore.DynamicsTooling.OAuth;
 
-namespace AN.Integration.Dynamics.Core.DynamicsTooling
+namespace AN.Integration.DynamicsCore.DynamicsTooling
 {
     internal class DynamicsConnector : IDynamicsConnector
     {

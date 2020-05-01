@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
+using AN.Integration.DynamicsCore.CoreTypes;
 using AutoMapper;
 
 namespace AN.Integration.Mapper.Extensions
@@ -23,11 +23,11 @@ namespace AN.Integration.Mapper.Extensions
             return expression.ForMember(destinationMember, o => o.MapFrom(sourceMember));
         }
 
-        public static IMappingExpression<TSource, EntityCore> MapField<TSource, TSourceMember>(
-            this IMappingExpression<TSource, EntityCore> expression,
-            Expression<Func<TSource, TSourceMember>> sourceMember, string targetName)
-        {
-            return expression.ForMember(targetName, o => o.MapFrom(sourceMember));
-        }
+        //public static IMappingExpression<TSource, EntityCore> MapAttribute<TSource, TSourceMember>(
+        //    this IMappingExpression<TSource, EntityCore> expression,
+        //    Expression<Func<TSource, TSourceMember>> sourceMember, string targetName)
+        //{
+        //    return expression.ForMember(targetName, o => o.MapFrom(sourceMember));
+        //}
     }
 }

@@ -1,5 +1,5 @@
-﻿using AN.Integration.Dynamics.Core.DynamicsTypes;
-using Microsoft.Xrm.Sdk;
+﻿using Microsoft.Xrm.Sdk;
+using AN.Integration.DynamicsCore.CoreTypes;
 
 namespace AN.Integration.Dynamics.Extensions
 {

@@ -2,7 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
+using AN.Integration.DynamicsCore.CoreTypes;
 
 namespace AN.Integration.Dynamics.Extensions
 {

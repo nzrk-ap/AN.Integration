@@ -6,9 +6,10 @@
     <SharedGUID>3d474130-8002-47ee-9309-49cdf351f017</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>AN.Integration.Dynamics.Core</Import_RootNamespace>
+    <Import_RootNamespace>AN.Integration.DynamicsCore</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Api\ApiRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\Conversion\AttributeValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\Conversion\IAttributeValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\DynamicsConnector.cs" />
@@ -16,16 +17,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\IDynamicsConnector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\IEntityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicsTooling\OAuth\ClientOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\AttributeCollectionCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ContextMessageType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\DynamicsContextCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\DataCollectionCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\IEntityCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ImageCollectionCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\OptionSetCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ParameterCollectionCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\ReferenceCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DynamicsTypes\EntityCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\AttributeCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\ContextMessageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\DynamicsContextCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\DataCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\IEntityCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\ImageCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\OptionSetCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\ParameterCollectionCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\ReferenceCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreTypes\EntityCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsContextCoreExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DynamicsCoreExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ContactMetadata.cs" />

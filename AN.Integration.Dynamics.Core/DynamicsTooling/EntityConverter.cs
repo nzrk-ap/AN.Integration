@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using AN.Integration.Dynamics.Core.DynamicsTooling.Conversion;
-using AN.Integration.Dynamics.Core.DynamicsTooling.Convert;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
-using AN.Integration.Dynamics.Core.Utilities;
+using AN.Integration.DynamicsCore.CoreTypes;
+using AN.Integration.DynamicsCore.DynamicsTooling.Conversion;
+using AN.Integration.DynamicsCore.DynamicsTooling.Convert;
+using AN.Integration.DynamicsCore.Utilities;
 
-namespace AN.Integration.Dynamics.Core.DynamicsTooling
+namespace AN.Integration.DynamicsCore.DynamicsTooling
 {
     public class EntityConverter: IEntityConverter
     {

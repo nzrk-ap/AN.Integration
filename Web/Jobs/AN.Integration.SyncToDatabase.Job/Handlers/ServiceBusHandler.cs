@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using AN.Integration.Database.Models.Models;
 using AN.Integration.Database.Repositories;
-using AN.Integration.Dynamics.Core.DynamicsTypes;
-using AN.Integration.Dynamics.Core.Extensions;
-using AN.Integration.Dynamics.Core.Utilities;
+using AN.Integration.DynamicsCore.CoreTypes;
+using AN.Integration.DynamicsCore.Extensions;
+using AN.Integration.DynamicsCore.Utilities;
 using AN.Integration.SyncToDatabase.Job.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace AN.Integration.Dynamics.Core.DynamicsTypes
+namespace AN.Integration.DynamicsCore.CoreTypes
 {
     [DataContract]
     public class OptionSetCore

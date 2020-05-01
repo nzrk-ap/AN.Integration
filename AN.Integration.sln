@@ -33,13 +33,13 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AN.Integration._1C", "AN.In
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{EC5C01DC-E125-440A-B936-F691E0B5EB88}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AN.Integration.Dynamics.Core", "AN.Integration.Dynamics.Core\AN.Integration.Dynamics.Core.shproj", "{3D474130-8002-47EE-9309-49CDF351F017}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AN.Integration.DynamicsCore", "AN.Integration.Dynamics.Core\AN.Integration.DynamicsCore.shproj", "{3D474130-8002-47EE-9309-49CDF351F017}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C2A9C2AF-3EBD-4E94-B993-5F11CEBD93F8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{56E8BEAB-45F0-4C35-8E29-49E4C7CEF098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AN.Integration.SyncToDynamics.Job", "AN.Integration.SyncToDynamics.Job\AN.Integration.SyncToDynamics.Job.csproj", "{3A3585ED-C259-4BA3-AB1F-853DFB11A739}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AN.Integration.SyncToDynamics.Job", "AN.Integration.SyncToDynamics.Job\AN.Integration.SyncToDynamics.Job.csproj", "{3A3585ED-C259-4BA3-AB1F-853DFB11A739}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

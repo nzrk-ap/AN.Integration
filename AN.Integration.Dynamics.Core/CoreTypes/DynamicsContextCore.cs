@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AN.Integration.Dynamics.Core.DynamicsTypes
+namespace AN.Integration.DynamicsCore.CoreTypes
 {
     public class DynamicsContextCore
     {

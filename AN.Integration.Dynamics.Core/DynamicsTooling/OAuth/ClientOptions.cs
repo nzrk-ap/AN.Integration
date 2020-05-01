@@ -1,4 +1,4 @@
-﻿namespace AN.Integration.Dynamics.Core.DynamicsTooling.OAuth
+﻿namespace AN.Integration.DynamicsCore.DynamicsTooling.OAuth
 {
     internal sealed class ClientOptions
     {
