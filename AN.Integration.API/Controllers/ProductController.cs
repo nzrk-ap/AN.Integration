@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using AN.Integration._1C.Messages;
 using AN.Integration.API.Extensions;
 using AN.Integration.API.Services;
-using AN.Integration.Models._1C.Dto;
+using AN.Integration.OneC.Messages;
+using AN.Integration.OneC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

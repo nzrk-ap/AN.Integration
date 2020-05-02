@@ -15,9 +15,9 @@ namespace AN.Integration.DynamicsCore.DynamicsTooling.Conversion
                 int i => i,
                 float f => f,
                 decimal d => d,
-                DateTime dt => dt,
-                OptionSetCore opc => opc.Value,
-                ReferenceCore rc => rc.ToString(),
+                //DateTime dt => dt,
+                //OptionSetCore opc => opc.Value,
+                //ReferenceCore rc => rc.ToString(),
                 _ => throw new ArgumentException($"Type {value.GetType().Name} is not supported")
             };
         }

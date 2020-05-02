@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AN.Integration.DynamicsCore.Api
 {
@@ -9,23 +10,23 @@ namespace AN.Integration.DynamicsCore.Api
             EntityName = entityName;
         }
 
-        public ApiRequest(string entityName, 
-            IDictionary<string, object> bodyAttributes) : this(entityName)
+        public ApiRequest(string entityName, Guid recordId)
+        {
+            EntityName = entityName;
+            RecordId = recordId;
+        }
+
+        public ApiRequest(string entityName,
+            IDictionary<string, object> bodyAttributes, Guid recordId) :
+            this(entityName, recordId)
         {
             BodyAttributes = bodyAttributes;
         }
 
         public string EntityName { get; private set; }
 
+        public Guid RecordId { get; private set; }
+
         public IDictionary<string, object> BodyAttributes { get; set; }
-
-        public RequestType Type { get; set; }
-
-        public enum RequestType 
-        {
-            Post = 1,
-            Patch,
-            Delete
-        }
     }
 }

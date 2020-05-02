@@ -22,12 +22,5 @@ namespace AN.Integration.Mapper.Extensions
         {
             return expression.ForMember(destinationMember, o => o.MapFrom(sourceMember));
         }
-
-        //public static IMappingExpression<TSource, EntityCore> MapAttribute<TSource, TSourceMember>(
-        //    this IMappingExpression<TSource, EntityCore> expression,
-        //    Expression<Func<TSource, TSourceMember>> sourceMember, string targetName)
-        //{
-        //    return expression.ForMember(targetName, o => o.MapFrom(sourceMember));
-        //}
     }
 }

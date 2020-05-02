@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AN.Integration.API.Extensions;
 using AN.Integration.API.Services;
-using AN.Integration._1C.Messages;
-using AN.Integration._1C.Models;
+using AN.Integration.OneC.Messages;
+using AN.Integration.OneC.Models;
 
 namespace AN.Integration.API.Controllers
 {

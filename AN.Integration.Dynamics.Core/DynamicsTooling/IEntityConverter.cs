@@ -1,9 +1,9 @@
-﻿using AN.Integration.DynamicsCore.CoreTypes;
+﻿using AN.Integration.DynamicsCore.Api;
 
 namespace AN.Integration.DynamicsCore.DynamicsTooling
 {
-    internal interface IEntityConverter
+    public interface IRequestConverter
     {
-        string ToJSon(EntityCore target);
+        string ToJSon(ApiRequest target);
     }
 }

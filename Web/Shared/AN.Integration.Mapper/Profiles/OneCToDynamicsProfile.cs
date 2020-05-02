@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using AN.Integration._1C.Models;
 using AN.Integration.DynamicsCore.Api;
 using AN.Integration.DynamicsCore.Models;
+using AN.Integration.OneC.Models;
 using AutoMapper;
 
 namespace AN.Integration.Mapper.Profiles

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AN.Integration.DynamicsCore.CoreTypes;
+using AN.Integration.DynamicsCore.Api;
 
 namespace AN.Integration.DynamicsCore.DynamicsTooling
 {
-    internal interface IDynamicsConnector
+    public interface IDynamicsConnector
     {
-        Task<Guid> CreateAsync(EntityCore target);
+        Task<Guid> UpsertAsync(ApiRequest request);
 
-        Task UpdateAsync(EntityCore target);
-
-        Task DeleteAsync(ReferenceCore target);
+        Task DeleteAsync(ApiRequest request);
     }
 }

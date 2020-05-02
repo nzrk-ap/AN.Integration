@@ -4,18 +4,18 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AN.Integration.DynamicsCore.CoreTypes;
+using AN.Integration.DynamicsCore.Api;
 using AN.Integration.DynamicsCore.DynamicsTooling.OAuth;
 
 namespace AN.Integration.DynamicsCore.DynamicsTooling
 {
-    internal class DynamicsConnector : IDynamicsConnector
+    public sealed class DynamicsConnector : IDynamicsConnector
     {
         private readonly HttpClient _httpClient;
         private readonly ClientOptions _options;
-        private readonly IEntityConverter _converter;
+        private readonly IRequestConverter _converter;
 
-        public DynamicsConnector(ClientOptions options, IEntityConverter converter)
+        public DynamicsConnector(ClientOptions options, IRequestConverter converter)
         {
             _httpClient = new HttpClient
             {
@@ -27,27 +27,31 @@ namespace AN.Integration.DynamicsCore.DynamicsTooling
             _converter = converter;
         }
 
-        public async Task<Guid> CreateAsync(EntityCore target)
+        //public async Task<Guid> CreateAsync(EntityCore target)
+        //{
+        //    var requestUri = $"/api/data/{_options.ApiVersion}/" +
+        //                     $"{target.LogicalName}s";
+        //    var content = ToContent(_converter.ToJSon(target));
+        //    var result = await _httpClient.PostAsync(requestUri, content);
+        //    return ParseId(await ReadResponse(result));
+        //}
+
+        public async Task<Guid> UpsertAsync(ApiRequest request)
         {
             var requestUri = $"/api/data/{_options.ApiVersion}/" +
-                             $"{target.LogicalName}s";
-            var content = ToContent(_converter.ToJSon(target));
-            var result = await _httpClient.PostAsync(requestUri, content);
+                             $"{request.EntityName}s({request.RecordId})";
+            var patchRequest = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri)
+            {
+                Content = ToContent(_converter.ToJSon(request))
+            };
+            var result = await _httpClient.SendAsync(patchRequest);
             return ParseId(await ReadResponse(result));
         }
 
-        public async Task UpdateAsync(EntityCore target)
+        public async Task DeleteAsync(ApiRequest request)
         {
             var requestUri = $"/api/data/{_options.ApiVersion}/" +
-                             $"{target.LogicalName}s({target.Id})";
-            var content = ToContent(_converter.ToJSon(target));
-            await ReadResponse(await _httpClient.PutAsync(requestUri, content));
-        }
-
-        public async Task DeleteAsync(ReferenceCore target)
-        {
-            var requestUri = $"/api/data/{_options.ApiVersion}/" +
-                             $"{target.LogicalName}s({target.Id})";
+                             $"{request.EntityName}s({request.RecordId})";
             await ReadResponse(await _httpClient.DeleteAsync(requestUri));
         }
 

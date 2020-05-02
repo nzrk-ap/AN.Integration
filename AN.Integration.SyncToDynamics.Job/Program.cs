@@ -2,8 +2,10 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using AN.Integration.DynamicsCore.DynamicsTooling.OAuth;
 using AN.Integration.SyncToDynamics.Job.Extensions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -42,7 +44,10 @@ namespace AN.Integration.SyncToDynamics.Job
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    services.RegisterEntityMappers();
+                    services.Configure<ClientOptions>(context.Configuration
+                        .GetSection("DynamicsClientOptions"));
+                    services.AddMapper();
+                    services.AddDynamicsConnector();
                 })
                 .ConfigureLogging((context, builder) => { builder.AddConsole(); });
 

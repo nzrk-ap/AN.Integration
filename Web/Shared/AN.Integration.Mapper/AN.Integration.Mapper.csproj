@@ -7,14 +7,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\AN.Integration.OneC\AN.Integration.OneC.csproj" />
     <ProjectReference Include="..\AN.Integration.Database.Models\AN.Integration.Database.Models.csproj" />
   </ItemGroup>
-
-  <Import Project="..\..\..\AN.Integration._1C\AN.Integration._1C.projitems" Label="Shared" />
 
   <Import Project="..\..\..\AN.Integration.Dynamics.Core\AN.Integration.Dynamics.Core.projitems" Label="Shared" />
 

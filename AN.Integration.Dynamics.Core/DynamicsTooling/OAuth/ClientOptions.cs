@@ -1,6 +1,6 @@
 ﻿namespace AN.Integration.DynamicsCore.DynamicsTooling.OAuth
 {
-    internal sealed class ClientOptions
+    public sealed class ClientOptions
     {
         public string Resource { get; set; }
         public string DirectoryId { get; set; }

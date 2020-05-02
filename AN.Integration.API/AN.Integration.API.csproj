@@ -12,10 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AN.Integration.OneC\AN.Integration.OneC.csproj" />
     <ProjectReference Include="..\Web\Shared\AN.Integration.Infrastructure\AN.Integration.Infrastructure.csproj" />
   </ItemGroup>
-
-  <Import Project="..\AN.Integration.Models\AN.Integration.Models.projitems" Label="Shared" />
-
-  <Import Project="..\AN.Integration._1C\AN.Integration._1C.projitems" Label="Shared" />
 </Project>

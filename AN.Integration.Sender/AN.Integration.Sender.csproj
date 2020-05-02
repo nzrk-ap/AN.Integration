@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <Import Project="..\AN.Integration.Dynamics.Core\AN.Integration.Dynamics.Core.projitems" Label="Shared" />
-
   <Import Project="..\AN.Integration.Dynamics\AN.Integration.Dynamics.projitems" Label="Shared" />
 
 </Project>

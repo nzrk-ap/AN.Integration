@@ -26,7 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Web\Shared\AN.Integration.Database.Models\AN.Integration.Database.Models.csproj" />
+    <ProjectReference Include="..\AN.Integration.OneC\AN.Integration.OneC.csproj" />
+    <ProjectReference Include="..\Web\Shared\AN.Integration.Infrastructure\AN.Integration.Infrastructure.csproj" />
     <ProjectReference Include="..\Web\Shared\AN.Integration.Mapper\AN.Integration.Mapper.csproj" />
   </ItemGroup>
 
