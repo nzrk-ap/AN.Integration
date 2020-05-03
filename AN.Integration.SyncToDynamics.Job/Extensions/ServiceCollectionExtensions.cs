@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using AN.Integration.Mapper.Profiles;
-using AN.Integration.DynamicsCore.DynamicsTooling;
-using AN.Integration.DynamicsCore.DynamicsTooling.OAuth;
+using AN.Integration.Infrastructure.Dynamics.DynamicsTooling;
+using AN.Integration.Infrastructure.Dynamics.OAuth;
 
 namespace AN.Integration.SyncToDynamics.Job.Extensions
 {
@@ -17,11 +16,9 @@ namespace AN.Integration.SyncToDynamics.Job.Extensions
 
         public static IServiceCollection AddDynamicsConnector(this IServiceCollection serviceCollection)
         {
-            return serviceCollection.AddTransient<IDynamicsConnector>(provider =>
-            {
-                var options = provider.GetService<IOptions<ClientOptions>>();
-                return new DynamicsConnector(options.Value, new RequestConverter());
-            });
+            return serviceCollection.AddTransient<DynamicsOAuthService>()
+                .AddTransient<IRequestConverter, RequestConverter>()
+                .AddTransient<IDynamicsConnector, DynamicsConnector>();
         }
     }
 }

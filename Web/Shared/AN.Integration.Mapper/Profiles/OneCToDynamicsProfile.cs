@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using AN.Integration.DynamicsCore.Api;
 using AN.Integration.DynamicsCore.Models;
+using AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Api;
 using AN.Integration.OneC.Models;
 using AutoMapper;
 
@@ -12,7 +12,7 @@ namespace AN.Integration.Mapper.Profiles
         {
             CreateMap<Contact, ApiRequest>()
                 .ConvertUsing(contact =>
-                    new ApiRequest(ContactMetadata.EntityLogicalName)
+                    new ApiRequest(ContactMetadata.EntityLogicalName, contact.DynamicsId)
                     {
                         BodyAttributes = new Dictionary<string, object>
                         {

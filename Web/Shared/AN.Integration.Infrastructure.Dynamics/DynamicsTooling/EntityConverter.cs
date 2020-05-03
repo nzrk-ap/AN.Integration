@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using AN.Integration.DynamicsCore.Api;
-using AN.Integration.DynamicsCore.DynamicsTooling.Conversion;
 using AN.Integration.DynamicsCore.DynamicsTooling.Convert;
-using AN.Integration.DynamicsCore.Utilities;
+using AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Api;
+using AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Conversion;
+using Newtonsoft.Json;
 
-namespace AN.Integration.DynamicsCore.DynamicsTooling
+namespace AN.Integration.Infrastructure.Dynamics.DynamicsTooling
 {
     public class RequestConverter: IRequestConverter
     {
@@ -15,7 +15,7 @@ namespace AN.Integration.DynamicsCore.DynamicsTooling
             var values = request.BodyAttributes.ToDictionary(attribute => attribute.Key,
                 attribute => _attributeValue.Convert(attribute.Value));
 
-            return DataSerializer.ToJson(values);
+            return JsonConvert.SerializeObject(values);
         }
     }
 }

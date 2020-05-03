@@ -1,15 +1,16 @@
 ﻿#nullable enable
+using System;
+using AutoMapper;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using AN.Integration.DynamicsCore.Api;
-using AN.Integration.DynamicsCore.DynamicsTooling;
-using AN.Integration.Infrastructure.Extensions;
-using AN.Integration.OneC.Messages;
 using AN.Integration.OneC.Models;
-using AutoMapper;
+using AN.Integration.OneC.Messages;
+using AN.Integration.Infrastructure.Dynamics.DynamicsTooling;
+using AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Api;
+using AN.Integration.Infrastructure.Extensions;
 
 namespace AN.Integration.SyncToDynamics.Job.Handlers
 {
@@ -34,6 +35,9 @@ namespace AN.Integration.SyncToDynamics.Job.Handlers
                 .Select(p => p.GetValue(body))
                 .FirstOrDefault(i => i != null && i.GetType() == innerArg);
 
+            if (!(value is IOneCData oneCData))
+                throw new Exception($"Type {value?.GetType().Name} is not supported");
+
             var apiRequest = _mapper.Map<ApiRequest>(value);
 
             if (body.GetType().GetGenericTypeDefinition() == typeof(UpsertMessage<>))
@@ -45,12 +49,8 @@ namespace AN.Integration.SyncToDynamics.Job.Handlers
                 await _connector.DeleteAsync(apiRequest);
             }
 
-            var oneCData = value as IOneCData;
-
-            logger.LogInformation($"Handled message for {value?.GetType().Name}." +
-                                  $" Code {oneCData?.Code}");
-
-            await Task.CompletedTask;
+            logger.LogInformation($"Handled message for {value.GetType().Name}." +
+                                  $" Code {oneCData.Code}");
         }
     }
 }

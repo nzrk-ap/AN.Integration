@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\AN.Integration.OneC\AN.Integration.OneC.csproj" />
     <ProjectReference Include="..\AN.Integration.Database.Models\AN.Integration.Database.Models.csproj" />
+    <ProjectReference Include="..\AN.Integration.Infrastructure.Dynamics\AN.Integration.Infrastructure.Dynamics.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\..\AN.Integration.Dynamics.Core\AN.Integration.Dynamics.Core.projitems" Label="Shared" />

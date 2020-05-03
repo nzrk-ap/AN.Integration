@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AN.Integration.DynamicsCore.Api
+namespace AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Api
 {
     public class ApiRequest
     {
@@ -10,14 +10,14 @@ namespace AN.Integration.DynamicsCore.Api
             EntityName = entityName;
         }
 
-        public ApiRequest(string entityName, Guid recordId)
+        public ApiRequest(string entityName, Guid? recordId)
         {
             EntityName = entityName;
             RecordId = recordId;
         }
 
         public ApiRequest(string entityName,
-            IDictionary<string, object> bodyAttributes, Guid recordId) :
+            IDictionary<string, object> bodyAttributes, Guid? recordId) :
             this(entityName, recordId)
         {
             BodyAttributes = bodyAttributes;
@@ -25,7 +25,7 @@ namespace AN.Integration.DynamicsCore.Api
 
         public string EntityName { get; private set; }
 
-        public Guid RecordId { get; private set; }
+        public Guid? RecordId { get; private set; }
 
         public IDictionary<string, object> BodyAttributes { get; set; }
     }

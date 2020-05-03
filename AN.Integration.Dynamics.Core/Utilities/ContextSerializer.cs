@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Json;
 using AN.Integration.DynamicsCore.CoreTypes;
 
 namespace AN.Integration.DynamicsCore.Utilities
