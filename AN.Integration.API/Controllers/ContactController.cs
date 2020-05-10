@@ -42,12 +42,12 @@ namespace AN.Integration.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(Contact contact)
+        public async Task<IActionResult> Delete(string code)
         {
-            _logger.LogIsOk<Contact>(contact.Code, nameof(Delete));
+            _logger.LogIsOk<Contact>(code, nameof(Delete));
 
             var (statusCode, content) = await _httpQueueClient
-                .SendMessageAsync(new DeleteMessage<Contact>(contact.Code));
+                .SendMessageAsync(new DeleteMessage<Contact>(code));
             return StatusCode(statusCode, content);
         }
     }

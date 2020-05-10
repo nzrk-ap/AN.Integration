@@ -43,12 +43,12 @@ namespace AN.Integration.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(Product product)
+        public async Task<IActionResult> Delete(string code)
         {
-            _logger.LogIsOk<Product>(product.Code, nameof(Delete));
+            _logger.LogIsOk<Product>(code, nameof(Delete));
 
             var (statusCode, content) = await _httpQueueClient
-                .SendMessageAsync(new DeleteMessage<Product>(product.Code));
+                .SendMessageAsync(new DeleteMessage<Product>(code));
             return StatusCode(statusCode, content);
         }
     }

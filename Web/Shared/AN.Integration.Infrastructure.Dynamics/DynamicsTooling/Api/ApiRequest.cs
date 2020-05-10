@@ -10,10 +10,15 @@ namespace AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Api
             EntityName = entityName;
         }
 
-        public ApiRequest(string entityName, Guid? recordId)
+        public ApiRequest(string entityName, Guid? recordId) : this(entityName)
         {
-            EntityName = entityName;
             RecordId = recordId;
+        }
+
+        public ApiRequest(string entityName, string keyName, string keyValue) : this(entityName)
+        {
+            KeyName = keyName;
+            KeyValue = keyValue;
         }
 
         public ApiRequest(string entityName,
@@ -23,9 +28,20 @@ namespace AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Api
             BodyAttributes = bodyAttributes;
         }
 
-        public string EntityName { get; private set; }
+        public ApiRequest(string entityName, string keyName, string keyValue,
+            IDictionary<string, object> bodyAttributes) :
+            this(entityName, keyName, keyValue)
+        {
+            BodyAttributes = bodyAttributes;
+        }
 
-        public Guid? RecordId { get; private set; }
+        public string EntityName { get; }
+
+        public Guid? RecordId { get; }
+
+        public string KeyName { get; }
+
+        public string KeyValue { get; }
 
         public IDictionary<string, object> BodyAttributes { get; set; }
     }

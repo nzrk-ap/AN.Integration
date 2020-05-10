@@ -37,7 +37,7 @@ namespace AN.Integration.Infrastructure.Dynamics.DynamicsTooling
         public async Task UpsertAsync(ApiRequest request)
         {
             var requestUri = $"/api/data/v{_options.Value.ApiVersion}/" +
-                             $"{request.EntityName}s({request.RecordId ?? Guid.NewGuid()})";
+                             $"{request.EntityName}s({request.KeyName}='{request.KeyValue}')";
             var patchRequest = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri)
             {
                 Content = ToContent(_converter.ToJSon(request))
@@ -49,10 +49,8 @@ namespace AN.Integration.Infrastructure.Dynamics.DynamicsTooling
 
         public async Task DeleteAsync(ApiRequest request)
         {
-            var recordId = request.RecordId ??
-                           throw new ArgumentNullException(nameof(request.RecordId));
             var requestUri = $"/api/data/v{_options.Value.ApiVersion}/" +
-                             $"{request.EntityName}s({recordId})";
+                             $"{request.EntityName}s({request.KeyName}='{request.KeyValue}')";
             var result = await _httpClient.DeleteAsync(requestUri);
             _logger.LogInformation($"{result.StatusCode}\n{ReadResponse(result)}");
         }

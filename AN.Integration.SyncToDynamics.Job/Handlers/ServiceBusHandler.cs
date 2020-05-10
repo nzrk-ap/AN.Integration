@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System;
 using AutoMapper;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +10,8 @@ using AN.Integration.OneC.Messages;
 using AN.Integration.Infrastructure.Dynamics.DynamicsTooling;
 using AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Api;
 using AN.Integration.Infrastructure.Extensions;
+using System;
+using AN.Integration.SyncToDynamics.Job.Extensions;
 
 namespace AN.Integration.SyncToDynamics.Job.Handlers
 {
@@ -29,28 +30,62 @@ namespace AN.Integration.SyncToDynamics.Job.Handlers
             [ServiceBusTrigger("api-export")] Message message, ILogger logger)
         {
             var body = message.GetBody();
-            var innerArg = body.GetType().GenericTypeArguments.First();
+            var genericArg = body.GetType().GenericTypeArguments.SingleOrDefault();
 
-            var value = body.GetType().GetProperties()
-                .Select(p => p.GetValue(body))
-                .FirstOrDefault(i => i != null && i.GetType() == innerArg);
-
-            if (!(value is IOneCData oneCData))
-                throw new Exception($"Type {value?.GetType().Name} is not supported");
-
-            var apiRequest = _mapper.Map<ApiRequest>(value);
-
-            if (body.GetType().GetGenericTypeDefinition() == typeof(UpsertMessage<>))
+            if (genericArg is null)
             {
-                await _connector.UpsertAsync(apiRequest);
-            }
-            else
-            {
-                await _connector.DeleteAsync(apiRequest);
+                logger.LogWarning($"Message of {body.GetType().Name} doesn't contain generic argument");
+                return;
             }
 
-            logger.LogInformation($"Handled message for {value.GetType().Name}." +
-                                  $" Code {oneCData.Code}");
+            try
+            {
+                var code = await SentRequestAsync(body, logger);
+                logger.LogInformation($"Handled message for {genericArg.Name}:{code}");
+            }
+            catch (Exception e)
+            {
+                logger.LogError($"Error for {genericArg.Name}\n{e.Message}\n{e.StackTrace}");
+            }
+        }
+
+        private async Task<string> SentRequestAsync(object message, ILogger logger)
+        {
+            switch (message.GetType().GetGenericTypeDefinition())
+            {
+                case { } type when type == typeof(UpsertMessage<>):
+                    {
+                        var upsertObject = GetUpsertObject(message);
+                        await _connector.UpsertAsync(_mapper.Map<ApiRequest>(upsertObject));
+                        return upsertObject.Code;
+                    }
+
+                case { } type when type == typeof(DeleteMessage<>):
+                    {
+                        var deleteObject = GetDeleteObject(message);
+                        await _connector.DeleteAsync(_mapper.Map<ApiRequest>(deleteObject));
+                        return deleteObject.GetFirstPropertyValue<string>();
+                    }
+                default:
+                    logger.LogWarning($"Message type {message.GetType().Name} is not supported");
+                    return string.Empty;
+            }
+        }
+
+        private static IOneCData GetUpsertObject(object body)
+        {
+            return body.GetFirstPropertyValueByInterface<IOneCData>() ??
+                   throw new ArgumentException($"Body doesn't contain {nameof(IOneCData)} data");
+        }
+
+        private static object GetDeleteObject(object body)
+        {
+            var code = body.GetFirstPropertyValue<string>() ??
+                       throw new ArgumentException("Body doesn't contain a code");
+
+            return Activator.CreateInstance(body.GetType()
+                       .GenericTypeArguments.First(), code) ??
+                   throw new Exception($"Unable to create instance of {body.GetType().Name}");
         }
     }
 }

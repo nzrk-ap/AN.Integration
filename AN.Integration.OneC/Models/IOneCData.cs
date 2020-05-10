@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AN.Integration.OneC.Models
 {
     public interface IOneCData
     {
-        [JsonProperty(Required = Required.Always)]
+        [Required]
         string Code { get; set; }
     }
 }

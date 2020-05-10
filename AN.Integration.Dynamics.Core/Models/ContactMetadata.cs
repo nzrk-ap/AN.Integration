@@ -19,17 +19,10 @@ namespace AN.Integration.DynamicsCore.Models
             public const string LogicalName = "lastname";
         }
 
-        public static class SbContactIdNumber
+        public static class ANCode
         {
             public static readonly Type Type = typeof(string);
-            public const string LogicalName = "sb_contactidnumber";
-        }
-
-        public static class MentorId
-        {
-            public static readonly Type Type = typeof(ReferenceCore);
-            public const string LogicalName = "sb_mentorid";
-            public const string SchemaName = "sb_MentorID";
+            public const string LogicalName = "an_code";
         }
 
         public static class ManagerName

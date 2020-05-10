@@ -12,15 +12,21 @@ namespace AN.Integration.Mapper.Profiles
         {
             CreateMap<Contact, ApiRequest>()
                 .ConvertUsing(contact =>
-                    new ApiRequest(ContactMetadata.EntityLogicalName, contact.DynamicsId)
+                    new ApiRequest(ContactMetadata.EntityLogicalName, 
+                        ContactMetadata.ANCode.LogicalName, contact.Code)
                     {
                         BodyAttributes = new Dictionary<string, object>
                         {
                             {ContactMetadata.FirstName.LogicalName, contact.FirstName},
                             {ContactMetadata.LastName.LogicalName, contact.LastName},
-                            {ContactMetadata.SbContactIdNumber.LogicalName, contact.Code}
+                            {ContactMetadata.ANCode.LogicalName, contact.Code}
                         }
                     });
+
+            //CreateMap<Contact, ApiRequest>();
+            //    .ConvertUsing(data =>
+            //        new ApiRequest(ContactMetadata.EntityLogicalName,
+            //            ContactMetadata.ANCode.LogicalName, data.Code));
         }
     }
 }
