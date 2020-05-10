@@ -34,7 +34,7 @@ namespace AN.Integration.SyncToDynamics.Job.Handlers
 
             if (genericArg is null)
             {
-                logger.LogWarning($"Message of {body.GetType().Name} doesn't contain generic argument");
+                logger.LogWarning($"Message of {body.GetTypeName()} doesn't contain generic argument");
                 return;
             }
 
@@ -54,20 +54,20 @@ namespace AN.Integration.SyncToDynamics.Job.Handlers
             switch (message.GetType().GetGenericTypeDefinition())
             {
                 case { } type when type == typeof(UpsertMessage<>):
-                    {
-                        var upsertObject = GetUpsertObject(message);
-                        await _connector.UpsertAsync(_mapper.Map<ApiRequest>(upsertObject));
-                        return upsertObject.Code;
-                    }
+                {
+                    var upsertObject = GetUpsertObject(message);
+                    await _connector.UpsertAsync(_mapper.Map<ApiRequest>(upsertObject));
+                    return upsertObject.Code;
+                }
 
                 case { } type when type == typeof(DeleteMessage<>):
-                    {
-                        var deleteObject = GetDeleteObject(message);
-                        await _connector.DeleteAsync(_mapper.Map<ApiRequest>(deleteObject));
-                        return deleteObject.GetFirstPropertyValue<string>();
-                    }
+                {
+                    var deleteObject = GetDeleteObject(message);
+                    await _connector.DeleteAsync(_mapper.Map<ApiRequest>(deleteObject));
+                    return deleteObject.GetFirstPropertyValue<string>();
+                }
                 default:
-                    logger.LogWarning($"Message type {message.GetType().Name} is not supported");
+                    logger.LogWarning($"Message type {message.GetTypeName()} is not supported");
                     return string.Empty;
             }
         }
@@ -75,17 +75,17 @@ namespace AN.Integration.SyncToDynamics.Job.Handlers
         private static IOneCData GetUpsertObject(object body)
         {
             return body.GetFirstPropertyValueByInterface<IOneCData>() ??
-                   throw new ArgumentException($"Body doesn't contain {nameof(IOneCData)} data");
+                   throw new ArgumentException($"{body.GetTypeName()} doesn't contain {nameof(IOneCData)} data");
         }
 
         private static object GetDeleteObject(object body)
         {
             var code = body.GetFirstPropertyValue<string>() ??
-                       throw new ArgumentException("Body doesn't contain a code");
+                       throw new ArgumentException($"{body.GetTypeName()} doesn't contain a code");
 
             return Activator.CreateInstance(body.GetType()
                        .GenericTypeArguments.First(), code) ??
-                   throw new Exception($"Unable to create instance of {body.GetType().Name}");
+                   throw new Exception($"Unable to create instance of {body.GetTypeName()}");
         }
     }
 }

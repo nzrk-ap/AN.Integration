@@ -4,6 +4,8 @@ namespace AN.Integration.SyncToDynamics.Job.Extensions
 {
     internal static class ObjectExtensions
     {
+        public static string GetTypeName(this object obj) => obj.GetType().Name;
+
         public static T GetFirstPropertyValue<T>(this object obj)
         {
             var value = obj.GetType().GetProperties()
