@@ -1,29 +1,24 @@
 ﻿#nullable enable
-using AutoMapper;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Logging;
-using AN.Integration.OneC.Models;
-using AN.Integration.OneC.Messages;
-using AN.Integration.Infrastructure.Dynamics.DynamicsTooling;
-using AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Api;
 using AN.Integration.Infrastructure.Extensions;
-using System;
+using AN.Integration.OneC.Messages;
 using AN.Integration.SyncToDynamics.Job.Extensions;
+using AN.Integration.SyncToDynamics.Job.Handlers.MessageHandlers;
 
 namespace AN.Integration.SyncToDynamics.Job.Handlers
 {
     public class ServiceBusHandler
     {
-        private readonly IMapper _mapper;
-        private readonly IDynamicsConnector _connector;
+        private readonly IMessageHandler _messageHandler;
 
-        public ServiceBusHandler(IMapper mapper, IDynamicsConnector connector)
+        public ServiceBusHandler(IMessageHandler messageHandler)
         {
-            _mapper = mapper;
-            _connector = connector;
+            _messageHandler = messageHandler;
         }
 
         public async Task HandleMessage(
@@ -40,8 +35,7 @@ namespace AN.Integration.SyncToDynamics.Job.Handlers
 
             try
             {
-                var code = await SentRequestAsync(body, logger);
-                logger.LogInformation($"Handled message for {genericArg.Name}:{code}");
+                await HandleMessageAsync(body, logger);
             }
             catch (Exception e)
             {
@@ -49,43 +43,20 @@ namespace AN.Integration.SyncToDynamics.Job.Handlers
             }
         }
 
-        private async Task<string> SentRequestAsync(object message, ILogger logger)
+        private async Task HandleMessageAsync(object message, ILogger logger)
         {
             switch (message.GetType().GetGenericTypeDefinition())
             {
                 case { } type when type == typeof(UpsertMessage<>):
-                {
-                    var upsertObject = GetUpsertObject(message);
-                    await _connector.UpsertAsync(_mapper.Map<ApiRequest>(upsertObject));
-                    return upsertObject.Code;
-                }
-
+                    await _messageHandler.HandleUpsertAsync(message);
+                    break;
                 case { } type when type == typeof(DeleteMessage<>):
-                {
-                    var deleteObject = GetDeleteObject(message);
-                    await _connector.DeleteAsync(_mapper.Map<ApiRequest>(deleteObject));
-                    return deleteObject.GetFirstPropertyValue<string>();
-                }
+                    await _messageHandler.HandleDeleteAsync(message);
+                    break;
                 default:
                     logger.LogWarning($"Message type {message.GetTypeName()} is not supported");
-                    return string.Empty;
+                    break;
             }
-        }
-
-        private static IOneCData GetUpsertObject(object body)
-        {
-            return body.GetFirstPropertyValueByInterface<IOneCData>() ??
-                   throw new ArgumentException($"{body.GetTypeName()} doesn't contain {nameof(IOneCData)} data");
-        }
-
-        private static object GetDeleteObject(object body)
-        {
-            var code = body.GetFirstPropertyValue<string>() ??
-                       throw new ArgumentException($"{body.GetTypeName()} doesn't contain a code");
-
-            return Activator.CreateInstance(body.GetType()
-                       .GenericTypeArguments.First(), code) ??
-                   throw new Exception($"Unable to create instance of {body.GetTypeName()}");
         }
     }
 }

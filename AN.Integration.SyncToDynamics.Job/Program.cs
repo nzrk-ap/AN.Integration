@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using AN.Integration.DynamicsCore.DynamicsTooling.OAuth;
 using AN.Integration.SyncToDynamics.Job.Extensions;
+using AN.Integration.SyncToDynamics.Job.Handlers.MessageHandlers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -48,6 +49,7 @@ namespace AN.Integration.SyncToDynamics.Job
                         .GetSection("DynamicsClientOptions"));
                     services.AddMapper();
                     services.AddDynamicsConnector();
+                    services.AddTransient<IMessageHandler, MessageHandler>();
                 })
                 .ConfigureLogging((context, builder) => { builder.AddConsole(); });
 
