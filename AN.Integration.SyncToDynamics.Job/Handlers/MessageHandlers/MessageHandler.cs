@@ -1,61 +1,45 @@
 ﻿using AutoMapper;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
-using AN.Integration.OneC.Models;
+using Microsoft.Extensions.Logging;
+using AN.Integration.SyncToDynamics.Job.Services;
 using AN.Integration.SyncToDynamics.Job.Extensions;
 using AN.Integration.Infrastructure.Dynamics.DynamicsTooling;
 using AN.Integration.Infrastructure.Dynamics.DynamicsTooling.Api;
-using Microsoft.Extensions.Logging;
 
 namespace AN.Integration.SyncToDynamics.Job.Handlers.MessageHandlers
 {
-    public sealed class MessageHandler : IMessageHandler
+    public sealed class MessageHandler<T> : IMessageHandler<T>
     {
         private readonly IMapper _mapper;
+        private readonly IDataInstance _dataInstance;
         private readonly IDynamicsConnector _connector;
-        private readonly ILogger<MessageHandler> _logger;
+        private readonly ILogger<MessageHandler<T>> _logger;
 
-        public MessageHandler(IMapper mapper, IDynamicsConnector connector,
-            ILogger<MessageHandler> logger)
+        public MessageHandler(IMapper mapper, IDataInstance dataInstance,
+            IDynamicsConnector connector, ILogger<MessageHandler<T>> logger)
         {
             _mapper = mapper;
+            _dataInstance = dataInstance;
             _connector = connector;
             _logger = logger;
         }
 
         public async Task HandleUpsertAsync(object message)
         {
-            var upsertObject = GetUpsertObject(message);
+            var upsertObject = _dataInstance.GetInstanceForUpsert<T>(message);
             var request = _mapper.Map<ApiRequest>(upsertObject);
             await _connector.UpsertAsync(request);
 
-            _logger.LogInformation($"Upsert executed for {upsertObject.GetTypeName()}:{upsertObject.Code}");
+            _logger.LogInformation($"Upsert executed for {request.EntityName}:{request.KeyValue}");
         }
 
         public async Task HandleDeleteAsync(object message)
         {
-            var deleteObject = GetDeleteObject(message);
+            var deleteObject = _dataInstance.GetInstanceForDelete<T>(message);
             var request = _mapper.Map<ApiRequest>(deleteObject);
             await _connector.DeleteAsync(request);
 
-            _logger.LogInformation($"Delete executed for {deleteObject.GetTypeName()}:{deleteObject.Code}");
-        }
-
-        private static IOneCData GetUpsertObject(object body)
-        {
-            return body.GetFirstPropertyValueByInterface<IOneCData>() ??
-                   throw new ArgumentException($"{body.GetTypeName()} doesn't contain {nameof(IOneCData)} data");
-        }
-
-        private static IOneCData GetDeleteObject(object body)
-        {
-            var code = body.GetFirstPropertyValue<string>() ??
-                       throw new ArgumentException($"{body.GetTypeName()} doesn't contain a code");
-
-            return (IOneCData) Activator.CreateInstance(body.GetType()
-                       .GenericTypeArguments.First(), code) ??
-                   throw new Exception($"Unable to create instance of {body.GetTypeName()}");
+            _logger.LogInformation($"Delete executed for {request.EntityName}:{request.KeyValue}");
         }
     }
 }

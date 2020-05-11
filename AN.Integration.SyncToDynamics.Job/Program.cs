@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using AN.Integration.DynamicsCore.DynamicsTooling.OAuth;
-using AN.Integration.SyncToDynamics.Job.Extensions;
-using AN.Integration.SyncToDynamics.Job.Handlers.MessageHandlers;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using AN.Integration.SyncToDynamics.Job.Extensions;
+using AN.Integration.DynamicsCore.DynamicsTooling.OAuth;
 
 namespace AN.Integration.SyncToDynamics.Job
 {
@@ -49,7 +48,7 @@ namespace AN.Integration.SyncToDynamics.Job
                         .GetSection("DynamicsClientOptions"));
                     services.AddMapper();
                     services.AddDynamicsConnector();
-                    services.AddTransient<IMessageHandler, MessageHandler>();
+                    services.AddMessageHandlers();
                 })
                 .ConfigureLogging((context, builder) => { builder.AddConsole(); });
 

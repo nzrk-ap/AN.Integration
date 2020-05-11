@@ -2,7 +2,7 @@
 
 namespace AN.Integration.SyncToDynamics.Job.Handlers.MessageHandlers
 {
-    public interface IMessageHandler
+    public interface IMessageHandler<T>
     {
         Task HandleUpsertAsync(object message);
 

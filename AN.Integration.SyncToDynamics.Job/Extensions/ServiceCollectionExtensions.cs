@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using AN.Integration.Mapper.Profiles;
 using AN.Integration.Infrastructure.Dynamics.DynamicsTooling;
 using AN.Integration.Infrastructure.Dynamics.OAuth;
+using AN.Integration.OneC.Models;
+using AN.Integration.SyncToDynamics.Job.Handlers.MessageHandlers;
+using AN.Integration.SyncToDynamics.Job.Services;
 
 namespace AN.Integration.SyncToDynamics.Job.Extensions
 {
@@ -19,6 +22,13 @@ namespace AN.Integration.SyncToDynamics.Job.Extensions
             return serviceCollection.AddTransient<DynamicsOAuthService>()
                 .AddTransient<IRequestConverter, RequestConverter>()
                 .AddTransient<IDynamicsConnector, DynamicsConnector>();
+        }
+
+        public static IServiceCollection AddMessageHandlers(this IServiceCollection serviceCollection)
+        {
+            return serviceCollection
+                .AddTransient<IDataInstance, DataInstance>()
+                .AddTransient<IMessageHandler<IOneCData>, MessageHandler<IOneCData>>();
         }
     }
 }
